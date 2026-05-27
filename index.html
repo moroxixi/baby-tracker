@@ -523,6 +523,34 @@ input[type="number"] {
 .empty p { font-size: 14px; }
 .empty span { font-size: 12px; display: block; margin-top: 6px; opacity: 0.7; }
 
+/* ── Import Zone ── */
+.import-zone {
+  border: 2px dashed var(--blush);
+  border-radius: var(--radius-lg);
+  padding: 24px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  margin-bottom: 12px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.import-zone:active,
+.import-zone.drag-over {
+  background: var(--blush-light);
+  border-color: var(--terracotta);
+}
+.import-zone i { font-size: 32px; color: var(--terracotta); display: block; margin-bottom: 8px; }
+.import-zone p { font-size: 13px; color: var(--text-secondary); }
+.import-zone span { font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px; }
+.import-result {
+  font-size: 12px;
+  color: var(--sage);
+  padding: 8px 0;
+  display: none;
+  line-height: 1.5;
+}
+
 /* ── Export ── */
 .copy-box {
   background: var(--cream);
@@ -913,6 +941,25 @@ input[type="number"] {
       Data tersimpan otomatis — <strong id="data-size">menghitung…</strong>
     </div>
 
+    <!-- Import JSON -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-file-import"></i>Muat Data dari File JSON</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
+        Upload file <code>.json</code> hasil backup dari perangkat lain. Data akan <strong>digabung</strong> — tidak menimpa data yang sudah ada.
+      </p>
+      <div class="import-zone" id="import-zone"
+           onclick="document.getElementById('file-input').click()"
+           ondragover="dragOver(event)"
+           ondragleave="dragLeave(event)"
+           ondrop="dropFile(event)">
+        <i class="ti ti-cloud-upload"></i>
+        <p>Ketuk untuk pilih file JSON</p>
+        <span>Format: catatan-bayi-YYYY-MM-DD.json</span>
+      </div>
+      <input type="file" id="file-input" accept=".json" style="display:none" onchange="loadJSONFile(this)">
+      <div class="import-result" id="import-result"></div>
+    </div>
+
     <div class="card">
       <div class="card-title"><i class="ti ti-table-export"></i>Ekspor Data JSON</div>
       <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
@@ -946,7 +993,8 @@ input[type="number"] {
         <div class="how-step"><span class="step-num">1</span>Ketuk Generate, lalu Salin ke clipboard</div>
         <div class="how-step"><span class="step-num">2</span>Buka chat Claude baru di claude.ai</div>
         <div class="how-step"><span class="step-num">3</span>Paste data + tulis pertanyaanmu</div>
-        <div class="how-step"><span class="step-num">4</span>Atau ketuk Unduh .json sebagai backup</div>
+        <div class="how-step"><span class="step-num">4</span>Atau Unduh .json sebagai backup</div>
+        <div class="how-step"><span class="step-num">5</span>Untuk sinkron dari HP lain: Unduh di HP lama → Upload di HP baru via kartu Import di atas</div>
       </div>
     </div>
 
@@ -1311,6 +1359,62 @@ function renderSemua() {
       <button class="delete-btn" onclick="hapus('${x._cat}',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
     </div>`;
   }).join('');
+}
+
+// ── Import JSON ───────────────────────────────────────────
+function dragOver(e) {
+  e.preventDefault();
+  document.getElementById('import-zone').classList.add('drag-over');
+}
+function dragLeave(e) {
+  document.getElementById('import-zone').classList.remove('drag-over');
+}
+function dropFile(e) {
+  e.preventDefault();
+  dragLeave(e);
+  const file = e.dataTransfer.files[0];
+  if (file) parseJSONFile(file);
+}
+function loadJSONFile(input) {
+  if (input.files[0]) parseJSONFile(input.files[0]);
+  input.value = ''; // reset agar bisa upload file yang sama lagi
+}
+function parseJSONFile(file) {
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      let added = 0;
+      const merge = (key) => {
+        const src = imported[key] || [];
+        const existingIds = new Set(data[key].map(x => x.id));
+        src.forEach(x => {
+          if (!existingIds.has(x.id)) { data[key].push(x); added++; }
+        });
+      };
+      merge('menyusui');
+      merge('popok');
+      merge('berat');
+      // sort ulang berdasarkan id (descending)
+      data.menyusui.sort((a, b) => b.id - a.id);
+      data.popok.sort((a, b) => b.id - a.id);
+      data.berat.sort((a, b) => b.id - a.id);
+      save();
+      renderMenyusui();
+      renderPopok();
+      renderBerat();
+      renderSemua();
+      const res = document.getElementById('import-result');
+      res.style.display = 'block';
+      res.textContent = `✓ Berhasil! ${added} catatan baru ditambahkan dari "${file.name}"`;
+      showToast(`✓ ${added} catatan diimpor`);
+      haptic('medium');
+    } catch (err) {
+      showToast('⚠️ File JSON tidak valid atau rusak');
+      haptic('error');
+    }
+  };
+  reader.readAsText(file);
 }
 
 // ── Ekspor ───────────────────────────────────────────────
