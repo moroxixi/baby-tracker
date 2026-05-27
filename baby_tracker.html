@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Catatan Bayi">
+<meta name="theme-color" content="#1A1410">
+<title>Catatan Bayi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --cream: #1A1410;
+  --cream-dark: #251C15;
+  --warm-white: #211810;
+  --blush: #8B3D25;
+  --blush-light: #3A2018;
+  --terracotta: #E07050;
+  --terracotta-dark: #C45535;
+  --sage: #5A8A5E;
+  --sage-light: #1A2E1C;
+  --sky: #4A7A9A;
+  --sky-light: #162330;
+  --amber: #C07030;
+  --amber-light: #2A1E0A;
+  --plum: #9A7A98;
+  --plum-light: #2A1E2A;
+  --text-primary: #F0E8DF;
+  --text-secondary: #B09A85;
+  --text-muted: #6A5A4A;
+  --border: rgba(255, 200, 160, 0.12);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+
+  /* iOS safe area */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  --tab-height: 72px;
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { height: 100%; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-primary);
+  min-height: 100%;
+  min-height: -webkit-fill-available;
+  position: relative;
+  overflow-x: hidden;
+  /* Prevent iOS bounce */
+  overscroll-behavior: none;
+  /* Smooth text rendering */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ambient glows */
+body::before {
+  content: '';
+  position: fixed;
+  top: -120px;
+  right: -80px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(242, 196, 176, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: -80px;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(122, 158, 126, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Main scroll container ── */
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 16px;
+  padding-top: var(--safe-top);
+  padding-bottom: calc(var(--tab-height) + var(--safe-bottom) + 16px);
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Smooth momentum scrolling on iOS */
+.log-list {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+}
+
+/* ── Header ── */
+.header {
+  padding: 20px 0 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.header-icon {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, var(--blush) 0%, var(--terracotta) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: white;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(196, 98, 58, 0.35);
+}
+.header-text h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.3px;
+}
+.header-text p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* ── Bottom Tab Bar (iOS native style) ── */
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(26, 20, 16, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  padding-bottom: var(--safe-bottom);
+  display: flex;
+  align-items: stretch;
+}
+.tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 6px 8px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-weight: 400;
+  transition: color 0.2s ease;
+  min-height: var(--tab-height);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+}
+.tab i {
+  font-size: 22px;
+  transition: transform 0.15s ease;
+}
+.tab.active {
+  color: var(--terracotta);
+  font-weight: 500;
+}
+.tab.active i {
+  transform: translateY(-1px);
+}
+/* Tap ripple */
+.tab::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 14px;
+  background: var(--terracotta);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+.tab:active::after {
+  opacity: 0.12;
+}
+.tab-label { position: relative; z-index: 1; }
+.tab i { position: relative; z-index: 1; }
+
+/* ── Sections ── */
+.section { display: none; }
+.section.active { display: block; animation: fadeUp 0.22s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Card ── */
+.card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.card-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title i {
+  color: var(--terracotta);
+  font-size: 18px;
+}
+
+/* ── Form controls — iOS optimized ── */
+.form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding-left: 2px;
+}
+
+/* iOS tap target: min 44px height */
+input, select, textarea {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px; /* prevents iOS zoom on focus! */
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--cream-dark);
+  background: var(--cream);
+  color: var(--text-primary);
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px; /* iOS minimum touch target */
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--blush);
+  box-shadow: 0 0 0 3px rgba(139, 61, 37, 0.25);
+  background: var(--warm-white);
+}
+textarea {
+  resize: none; /* prevent iOS resize handle overlap */
+  min-height: 76px;
+  line-height: 1.55;
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23B09A85' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+  cursor: pointer;
+}
+
+/* Date/time inputs on iOS */
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+  color-scheme: dark;
+}
+
+.mb-12 { margin-bottom: 12px; }
+
+/* ── Primary button ── */
+.btn-add {
+  width: 100%;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
+  color: white;
+  margin-top: 10px;
+  transition: opacity 0.15s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.1px;
+  box-shadow: 0 4px 16px rgba(196, 98, 58, 0.35);
+  min-height: 52px; /* comfortable iOS touch */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  user-select: none;
+}
+.btn-add:active { opacity: 0.85; transform: scale(0.98); }
+
+/* ── Secondary buttons ── */
+.btn-export {
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--cream-dark);
+  background: var(--cream);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: background 0.15s, border-color 0.15s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-export:active { background: var(--cream-dark); }
+.btn-danger { background: #3A1A18; border-color: #5A2A24; color: #E88A80; }
+.btn-danger:active { background: #4A2220; }
+.btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.btn-row .btn-danger {
+  grid-column: 1 / -1;
+}
+
+/* ── Stats ── */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+.section-header h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.stats-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+
+.stat-card {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 10px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.stat-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.stat-value {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 300;
+  color: var(--text-primary);
+  line-height: 1;
+}
+.stat-value .unit {
+  font-size: 10px;
+  color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 400;
+  display: block;
+  margin-top: 4px;
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.badge-blue  { background: var(--sky-light);   color: #7ABCDC; }
+.badge-green { background: var(--sage-light);  color: #7ABE80; }
+.badge-amber { background: var(--amber-light); color: #CDA060; }
+.badge-red   { background: #3A1A18;            color: #E88A80; }
+.badge-teal  { background: #0E2820;            color: #60C0B0; }
+.badge-plum  { background: var(--plum-light);  color: var(--plum); }
+
+/* ── Log list ── */
+.log-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 400px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 2px;
+  scroll-behavior: smooth;
+}
+.log-list::-webkit-scrollbar { width: 0; }
+
+.log-item {
+  background: var(--warm-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  animation: slideIn 0.2s ease;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.log-info { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+.log-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.log-time i { font-size: 12px; }
+.log-detail {
+  font-size: 13px;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.log-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.4;
+  /* Prevent overflow on narrow screens */
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Delete button — bigger touch target on iOS */
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0;
+  border-radius: 10px;
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  /* Large touch area */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -6px -6px -6px 0;
+}
+.delete-btn:active { color: #E88A80; background: rgba(232, 138, 128, 0.15); }
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+.empty i { font-size: 40px; display: block; margin: 0 auto 12px; opacity: 0.4; }
+.empty p { font-size: 14px; }
+.empty span { font-size: 12px; display: block; margin-top: 6px; opacity: 0.7; }
+
+/* ── Export ── */
+.copy-box {
+  background: var(--cream);
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  max-height: 200px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+
+/* ── Toast — positioned above tab bar ── */
+.toast {
+  position: fixed;
+  bottom: calc(var(--tab-height) + var(--safe-bottom) + 12px);
+  left: 16px;
+  right: 16px;
+  transform: translateY(20px);
+  background: rgba(240, 232, 223, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--cream);
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 200;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  text-align: center;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Riwayat filter ── */
+.riwayat-filter {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+  /* Hide scrollbar */
+  scrollbar-width: none;
+}
+.riwayat-filter::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 1.5px solid var(--cream-dark);
+  background: var(--cream);
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-height: 38px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: all 0.15s;
+}
+.filter-btn.active {
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: white;
+}
+.filter-btn:active { opacity: 0.8; }
+
+/* ── Storage info ── */
+.storage-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: var(--sage-light);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(122, 158, 126, 0.25);
+}
+.storage-info i { color: var(--sage); font-size: 16px; flex-shrink: 0; }
+
+/* ── How to use ── */
+.how-to-card {
+  background: linear-gradient(135deg, var(--blush-light) 0%, var(--sky-light) 100%);
+  border: 1px solid rgba(196, 156, 128, 0.2);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.how-to-card h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 15px;
+  font-weight: 400;
+  margin-bottom: 14px;
+  color: var(--text-primary);
+}
+.how-to-steps { display: flex; flex-direction: column; gap: 10px; }
+.how-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Pull-to-refresh hint ── */
+.refresh-hint {
+  text-align: center;
+  padding: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  opacity: 0.6;
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+
+/* ── Section quick badge ── */
+.section-header .badge {
+  font-size: 12px;
+  padding: 5px 12px;
+}
+
+/* ── Keyboard avoider: when keyboard is open on iOS ── */
+@supports (-webkit-touch-callout: none) {
+  .app {
+    /* Extra padding on older iOS that don't support env() */
+    padding-bottom: calc(var(--tab-height) + 34px + 16px);
+  }
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 16px 0;
+}
+
+/* Floating quick-date label */
+.date-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--terracotta);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0 2px;
+  margin-bottom: 4px;
+  display: block;
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">🍼</div>
+    <div class="header-text">
+      <h1>Catatan Bayi</h1>
+      <p>Pantau menyusui, popok & tumbuh kembang si kecil</p>
+    </div>
+  </div>
+
+  <!-- ══ MENYUSUI ══ -->
+  <div id="sec-menyusui" class="section active">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-droplet-filled"></i>Tambah Menyusui</div>
+
+      <div class="form-row-3">
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input type="date" id="s-tanggal">
+        </div>
+        <div class="form-group">
+          <label>Jam Mulai</label>
+          <input type="time" id="s-jam">
+        </div>
+        <div class="form-group">
+          <label>Durasi (mnt)</label>
+          <input type="number" id="s-durasi" min="1" max="60" placeholder="15" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="form-row mb-12">
+        <div class="form-group">
+          <label>Payudara</label>
+          <select id="s-sisi">
+            <option value="kiri">🫶 Kiri</option>
+            <option value="kanan">🫶 Kanan</option>
+            <option value="keduanya">🤱 Keduanya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Kondisi</label>
+          <select id="s-kondisi">
+            <option value="normal">😊 Normal</option>
+            <option value="gumoh">🤧 Gumoh</option>
+            <option value="rewel">😢 Rewel</option>
+            <option value="tertidur">😴 Ketiduran</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Catatan</label>
+        <textarea id="s-catatan" placeholder="mis. menyusu kuat, sendawa berhasil…"></textarea>
+      </div>
+
+      <button class="btn-add" onclick="tambahMenyusui()">
+        <i class="ti ti-plus"></i> Simpan Catatan Menyusui
+      </button>
+    </div>
+
+    <div class="section-header">
+      <h2>Riwayat Hari Ini</h2>
+      <span class="badge badge-blue" id="s-stats">0× hari ini</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total</div>
+        <div class="stat-value" id="st-total">0<span class="unit">kali total</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Rata Jeda</div>
+        <div class="stat-value" id="st-jeda">—<span class="unit">menit</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Durasi</div>
+        <div class="stat-value" id="st-durasi">0<span class="unit">mnt hari ini</span></div>
+      </div>
+    </div>
+
+    <div class="log-list" id="list-menyusui">
+      <div class="empty">
+        <i class="ti ti-droplet"></i>
+        <p>Belum ada catatan menyusui</p>
+        <span>Tambahkan catatan pertamamu di atas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ POPOK ══ -->
+  <div id="sec-popok" class="section">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-baby-carriage"></i>Tambah Popok</div>
+
+      <div class="form-row mb-12">
+        <div class="form-group">
+          <label>Tanggal</label>
+          <input type="date" id="p-tanggal">
+        </div>
+        <div class="form-group">
+          <label>Jam</label>
+          <input type="time" id="p-jam">
+        </div>
+      </div>
+
+      <div class="form-row mb-12">
+        <div class="form-group">
+          <label>Jenis</label>
+          <select id="p-jenis">
+            <option value="basah">💧 Basah</option>
+            <option value="bab">🟡 BAB</option>
+            <option value="keduanya">💛 Keduanya</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Warna BAB</label>
+          <select id="p-warna">
+            <option value="-">— Tidak BAB</option>
+            <option value="hitam">⚫ Hitam</option>
+            <option value="hijau">🟢 Hijau</option>
+            <option value="kuning">🟡 Kuning</option>
+            <option value="lainnya">🔵 Lainnya</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Catatan</label>
+        <textarea id="p-catatan" placeholder="mis. BAB banyak, warna kuning normal…"></textarea>
+      </div>
+
+      <button class="btn-add" onclick="tambahPopok()">
+        <i class="ti ti-plus"></i> Simpan Catatan Popok
+      </button>
+    </div>
+
+    <div class="section-header">
+      <h2>Riwayat Popok Hari Ini</h2>
+      <span class="badge badge-green" id="p-stats">0× hari ini</span>
+    </div>
+
+    <div class="stats-grid cols-2">
+      <div class="stat-card">
+        <div class="stat-label">Popok Basah</div>
+        <div class="stat-value" id="pt-basah">0<span class="unit">kali hari ini</span></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">BAB</div>
+        <div class="stat-value" id="pt-bab">0<span class="unit">kali hari ini</span></div>
+      </div>
+    </div>
+
+    <div class="log-list" id="list-popok">
+      <div class="empty">
+        <i class="ti ti-baby-carriage"></i>
+        <p>Belum ada catatan popok</p>
+        <span>Tambahkan catatan pertamamu di atas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BERAT ══ -->
+  <div id="sec-berat" class="section">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-scale"></i>Catat Berat Badan</div>
+
+      <div class="form-row mb-12">
+        <div class="form-group">
+          <label>Tanggal Timbang</label>
+          <input type="date" id="b-tanggal">
+        </div>
+        <div class="form-group">
+          <label>Berat (gram)</label>
+          <input type="number" id="b-berat" min="1000" max="6000" placeholder="3200" inputmode="numeric">
+        </div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Catatan</label>
+        <textarea id="b-catatan" placeholder="mis. naik 30g dari kemarin…"></textarea>
+      </div>
+
+      <button class="btn-add" onclick="tambahBerat()">
+        <i class="ti ti-plus"></i> Simpan Berat Badan
+      </button>
+    </div>
+
+    <div class="section-header">
+      <h2>Riwayat Berat</h2>
+    </div>
+
+    <div class="log-list" id="list-berat">
+      <div class="empty">
+        <i class="ti ti-scale"></i>
+        <p>Belum ada catatan berat</p>
+        <span>Tambahkan catatan pertamamu di atas</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DATA / EKSPOR ══ -->
+  <div id="sec-ekspor" class="section">
+
+    <div class="storage-info">
+      <i class="ti ti-database"></i>
+      Data tersimpan otomatis — <strong id="data-size">menghitung…</strong>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-table-export"></i>Ekspor Data JSON</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
+        Salin data ini ke Claude untuk analisis mendalam, atau unduh sebagai backup.
+      </p>
+      <div class="copy-box" id="export-preview">Ketuk <strong>Generate</strong> untuk melihat data</div>
+      <div class="btn-row">
+        <button class="btn-export" onclick="generateExport()"><i class="ti ti-refresh"></i> Generate</button>
+        <button class="btn-export" onclick="copyToClipboard()"><i class="ti ti-copy"></i> Salin</button>
+        <button class="btn-export" onclick="downloadJSON()"><i class="ti ti-download"></i> Unduh .json</button>
+        <button class="btn-export btn-danger" onclick="resetData()"><i class="ti ti-trash"></i> Hapus Semua Data</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ti ti-history"></i>Semua Riwayat</div>
+      <div class="riwayat-filter">
+        <button class="filter-btn active" onclick="setFilter('semua',this)">Semua</button>
+        <button class="filter-btn" onclick="setFilter('menyusui',this)">🍼 Menyusui</button>
+        <button class="filter-btn" onclick="setFilter('popok',this)">🚼 Popok</button>
+        <button class="filter-btn" onclick="setFilter('berat',this)">⚖️ Berat</button>
+      </div>
+      <div class="log-list" id="list-semua" style="max-height:460px">
+        <div class="empty"><i class="ti ti-history"></i><p>Belum ada data tersimpan</p></div>
+      </div>
+    </div>
+
+    <div class="how-to-card">
+      <h3>💡 Cara pakai dengan Claude</h3>
+      <div class="how-to-steps">
+        <div class="how-step"><span class="step-num">1</span>Ketuk Generate, lalu Salin ke clipboard</div>
+        <div class="how-step"><span class="step-num">2</span>Buka chat Claude baru di claude.ai</div>
+        <div class="how-step"><span class="step-num">3</span>Paste data + tulis pertanyaanmu</div>
+        <div class="how-step"><span class="step-num">4</span>Atau ketuk Unduh .json sebagai backup</div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- .app -->
+
+<!-- Bottom Tab Bar -->
+<nav class="tab-bar">
+  <button class="tab active" onclick="switchTab('menyusui',this)">
+    <i class="ti ti-droplet"></i>
+    <span class="tab-label">Menyusui</span>
+  </button>
+  <button class="tab" onclick="switchTab('popok',this)">
+    <i class="ti ti-baby-carriage"></i>
+    <span class="tab-label">Popok</span>
+  </button>
+  <button class="tab" onclick="switchTab('berat',this)">
+    <i class="ti ti-scale"></i>
+    <span class="tab-label">Berat</span>
+  </button>
+  <button class="tab" onclick="switchTab('ekspor',this)">
+    <i class="ti ti-database"></i>
+    <span class="tab-label">Data</span>
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Storage ──────────────────────────────────────────────
+const STORAGE_KEY = 'baby-tracker-v2';
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch (e) { console.error('Load error', e); }
+  return { menyusui: [], popok: [], berat: [] };
+}
+
+function save() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    updateStorageInfo();
+  } catch (e) { showToast('⚠️ Gagal menyimpan data'); }
+}
+
+function updateStorageInfo() {
+  const raw = localStorage.getItem(STORAGE_KEY) || '';
+  const kb = (new Blob([raw]).size / 1024).toFixed(1);
+  const total = data.menyusui.length + data.popok.length + data.berat.length;
+  const el = document.getElementById('data-size');
+  if (el) el.textContent = `${total} catatan · ${kb} KB`;
+}
+
+let data = loadData();
+let currentFilter = 'semua';
+
+// ── Haptic feedback (iOS) ──────────────────────────────
+function haptic(type = 'light') {
+  if ('vibrate' in navigator) {
+    const patterns = { light: [10], medium: [20], error: [30, 10, 30] };
+    navigator.vibrate(patterns[type] || [10]);
+  }
+}
+
+// ── Utilities ────────────────────────────────────────────
+function now() {
+  const d = new Date();
+  return {
+    date: d.toISOString().slice(0, 10),
+    time: d.toTimeString().slice(0, 5)
+  };
+}
+function todayStr() { return now().date; }
+
+function setDefaults() {
+  const n = now();
+  ['s-tanggal', 'p-tanggal', 'b-tanggal'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value) el.value = n.date;
+  });
+  ['s-jam', 'p-jam'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el.value) el.value = n.time;
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── Tabs ─────────────────────────────────────────────────
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const sec = document.getElementById('sec-' + tab);
+  if (sec) sec.classList.add('active');
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (tab === 'menyusui') renderMenyusui();
+  if (tab === 'popok')    renderPopok();
+  if (tab === 'berat')    renderBerat();
+  if (tab === 'ekspor')   { renderSemua(); updateStorageInfo(); }
+  setDefaults();
+  haptic('light');
+}
+
+// ── Tambah ───────────────────────────────────────────────
+function tambahMenyusui() {
+  const tgl  = document.getElementById('s-tanggal').value;
+  const jam  = document.getElementById('s-jam').value;
+  const dur  = document.getElementById('s-durasi').value;
+  const sisi = document.getElementById('s-sisi').value;
+  const kond = document.getElementById('s-kondisi').value;
+  const cat  = document.getElementById('s-catatan').value.trim();
+
+  if (!tgl || !jam) { showToast('⚠️ Isi tanggal dan jam dulu ya'); haptic('error'); return; }
+
+  data.menyusui.unshift({
+    id: Date.now(), tgl, jam,
+    durasi: dur || '—',
+    sisi, kondisi: kond,
+    catatan: cat,
+    jenis: 'menyusui',
+    disimpan: new Date().toISOString()
+  });
+  save();
+  renderMenyusui();
+  document.getElementById('s-durasi').value = '';
+  document.getElementById('s-catatan').value = '';
+  document.getElementById('s-kondisi').value = 'normal';
+  // Scroll form to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('✓ Catatan menyusui disimpan');
+  haptic('medium');
+}
+
+function tambahPopok() {
+  const tgl   = document.getElementById('p-tanggal').value;
+  const jam   = document.getElementById('p-jam').value;
+  const jenis = document.getElementById('p-jenis').value;
+  const warna = document.getElementById('p-warna').value;
+  const cat   = document.getElementById('p-catatan').value.trim();
+
+  if (!tgl || !jam) { showToast('⚠️ Isi tanggal dan jam dulu ya'); haptic('error'); return; }
+
+  data.popok.unshift({
+    id: Date.now(), tgl, jam, jenis, warna,
+    catatan: cat, jenis_log: 'popok',
+    disimpan: new Date().toISOString()
+  });
+  save();
+  renderPopok();
+  document.getElementById('p-catatan').value = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('✓ Catatan popok disimpan');
+  haptic('medium');
+}
+
+function tambahBerat() {
+  const tgl   = document.getElementById('b-tanggal').value;
+  const berat = document.getElementById('b-berat').value;
+  const cat   = document.getElementById('b-catatan').value.trim();
+
+  if (!tgl || !berat) { showToast('⚠️ Isi tanggal dan berat dulu ya'); haptic('error'); return; }
+
+  data.berat.unshift({
+    id: Date.now(), tgl,
+    berat: parseInt(berat),
+    catatan: cat, jenis: 'berat',
+    disimpan: new Date().toISOString()
+  });
+  save();
+  renderBerat();
+  document.getElementById('b-berat').value = '';
+  document.getElementById('b-catatan').value = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  showToast('✓ Berat badan disimpan');
+  haptic('medium');
+}
+
+function hapus(jenis, id) {
+  if (!confirm('Hapus catatan ini?')) return;
+  data[jenis] = data[jenis].filter(x => x.id !== id);
+  save();
+  if (jenis === 'menyusui') renderMenyusui();
+  if (jenis === 'popok')    renderPopok();
+  if (jenis === 'berat')    renderBerat();
+  renderSemua();
+  showToast('🗑 Catatan dihapus');
+  haptic('light');
+}
+
+// ── Render Menyusui ──────────────────────────────────────
+function renderMenyusui() {
+  const today = todayStr();
+  const todayItems = data.menyusui.filter(x => x.tgl === today);
+  document.getElementById('s-stats').textContent = todayItems.length + '× hari ini';
+  document.getElementById('st-total').innerHTML = data.menyusui.length + '<span class="unit">kali total</span>';
+
+  const totalDur = todayItems.filter(x => x.durasi !== '—').reduce((a, b) => a + parseInt(b.durasi), 0);
+  document.getElementById('st-durasi').innerHTML = totalDur + '<span class="unit">mnt hari ini</span>';
+
+  if (todayItems.length > 1) {
+    const sorted = [...todayItems].sort((a, b) => a.jam.localeCompare(b.jam));
+    const gaps = [];
+    for (let i = 1; i < sorted.length; i++) {
+      const [ah, am] = sorted[i-1].jam.split(':').map(Number);
+      const [bh, bm] = sorted[i].jam.split(':').map(Number);
+      gaps.push((bh*60+bm) - (ah*60+am));
+    }
+    const avg = Math.round(gaps.reduce((a,b)=>a+b,0) / gaps.length);
+    document.getElementById('st-jeda').innerHTML = avg + '<span class="unit">mnt rata-rata</span>';
+  } else {
+    document.getElementById('st-jeda').innerHTML = '—<span class="unit">belum cukup data</span>';
+  }
+
+  const list = document.getElementById('list-menyusui');
+  if (!data.menyusui.length) {
+    list.innerHTML = `<div class="empty"><i class="ti ti-droplet"></i><p>Belum ada catatan menyusui</p><span>Tambahkan catatan pertamamu di atas</span></div>`;
+    return;
+  }
+  const kondBadge = { normal:'badge-blue', gumoh:'badge-amber', rewel:'badge-red', tertidur:'badge-teal' };
+  const kondLabel = { normal:'Normal', gumoh:'Gumoh', rewel:'Rewel', tertidur:'Ketiduran' };
+  list.innerHTML = data.menyusui.slice(0, 40).map(x => `
+    <div class="log-item">
+      <div class="log-info">
+        <span class="log-time">
+          <i class="ti ti-calendar"></i>${x.tgl} &nbsp;·&nbsp;
+          <i class="ti ti-clock"></i>${x.jam}
+          ${x.durasi !== '—' ? ` &nbsp;·&nbsp; ${x.durasi} mnt` : ''}
+        </span>
+        <span class="log-detail">
+          <strong>Payudara ${x.sisi}</strong>
+          <span class="badge ${kondBadge[x.kondisi] || 'badge-blue'}">${kondLabel[x.kondisi] || x.kondisi}</span>
+        </span>
+        ${x.catatan ? `<span class="log-note">"${x.catatan}"</span>` : ''}
+      </div>
+      <button class="delete-btn" onclick="hapus('menyusui',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+}
+
+// ── Render Popok ─────────────────────────────────────────
+function renderPopok() {
+  const today = todayStr();
+  const todayItems = data.popok.filter(x => x.tgl === today);
+  document.getElementById('p-stats').textContent = todayItems.length + '× hari ini';
+  document.getElementById('pt-basah').innerHTML = todayItems.filter(x => x.jenis === 'basah' || x.jenis === 'keduanya').length + '<span class="unit">kali hari ini</span>';
+  document.getElementById('pt-bab').innerHTML   = todayItems.filter(x => x.jenis === 'bab'   || x.jenis === 'keduanya').length + '<span class="unit">kali hari ini</span>';
+
+  const list = document.getElementById('list-popok');
+  if (!data.popok.length) {
+    list.innerHTML = `<div class="empty"><i class="ti ti-baby-carriage"></i><p>Belum ada catatan popok</p><span>Tambahkan catatan pertamamu di atas</span></div>`;
+    return;
+  }
+  const jenisBadge = { basah:'badge-blue', bab:'badge-amber', keduanya:'badge-teal' };
+  const jenisLabel = { basah:'Basah/Pipis', bab:'BAB', keduanya:'Basah + BAB' };
+  list.innerHTML = data.popok.slice(0, 40).map(x => `
+    <div class="log-item">
+      <div class="log-info">
+        <span class="log-time"><i class="ti ti-calendar"></i>${x.tgl} &nbsp;·&nbsp; <i class="ti ti-clock"></i>${x.jam}</span>
+        <span class="log-detail">
+          <span class="badge ${jenisBadge[x.jenis] || 'badge-blue'}">${jenisLabel[x.jenis] || x.jenis}</span>
+          ${x.warna && x.warna !== '-' ? `BAB warna <strong>${x.warna}</strong>` : ''}
+        </span>
+        ${x.catatan ? `<span class="log-note">"${x.catatan}"</span>` : ''}
+      </div>
+      <button class="delete-btn" onclick="hapus('popok',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
+    </div>`).join('');
+}
+
+// ── Render Berat ─────────────────────────────────────────
+function renderBerat() {
+  const list = document.getElementById('list-berat');
+  if (!data.berat.length) {
+    list.innerHTML = `<div class="empty"><i class="ti ti-scale"></i><p>Belum ada catatan berat</p><span>Tambahkan catatan pertamamu di atas</span></div>`;
+    return;
+  }
+  const sorted = [...data.berat].sort((a, b) => new Date(b.tgl) - new Date(a.tgl));
+  list.innerHTML = sorted.map((x, i) => {
+    const prev = sorted[i+1];
+    let diff = '';
+    if (prev) {
+      const d = x.berat - prev.berat;
+      diff = `<span class="badge ${d >= 0 ? 'badge-green' : 'badge-red'}">${d >= 0 ? '+' : ''}${d}g</span>`;
+    }
+    return `<div class="log-item">
+      <div class="log-info">
+        <span class="log-time"><i class="ti ti-calendar"></i>${x.tgl}</span>
+        <span class="log-detail"><strong>${x.berat.toLocaleString('id-ID')}g</strong> ${diff}</span>
+        ${x.catatan ? `<span class="log-note">"${x.catatan}"</span>` : ''}
+      </div>
+      <button class="delete-btn" onclick="hapus('berat',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
+    </div>`;
+  }).join('');
+}
+
+// ── Render Semua ─────────────────────────────────────────
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderSemua();
+  haptic('light');
+}
+
+function renderSemua() {
+  const allItems = [
+    ...data.menyusui.map(x => ({ ...x, _cat: 'menyusui' })),
+    ...data.popok.map(x => ({ ...x, _cat: 'popok' })),
+    ...data.berat.map(x => ({ ...x, _cat: 'berat' }))
+  ]
+  .filter(x => currentFilter === 'semua' || x._cat === currentFilter)
+  .sort((a, b) => {
+    const da = new Date(a.disimpan || (a.tgl + 'T' + (a.jam || '00:00')));
+    const db = new Date(b.disimpan || (b.tgl + 'T' + (b.jam || '00:00')));
+    return db - da;
+  });
+
+  const list = document.getElementById('list-semua');
+  if (!allItems.length) {
+    list.innerHTML = `<div class="empty"><i class="ti ti-history"></i><p>Belum ada data tersimpan</p></div>`;
+    return;
+  }
+
+  const kondLabel = { normal:'Normal', gumoh:'Gumoh', rewel:'Rewel', tertidur:'Ketiduran' };
+  const jenisLabel = { basah:'Basah/Pipis', bab:'BAB', keduanya:'Basah + BAB' };
+  const catIcon  = { menyusui:'ti-droplet-filled', popok:'ti-baby-carriage', berat:'ti-scale' };
+  const catBadge = { menyusui:'badge-blue', popok:'badge-green', berat:'badge-plum' };
+  const catName  = { menyusui:'Menyusui', popok:'Popok', berat:'Berat' };
+
+  list.innerHTML = allItems.slice(0, 80).map(x => {
+    let detail = '';
+    if (x._cat === 'menyusui') {
+      detail = `Payudara <strong>${x.sisi}</strong> · ${kondLabel[x.kondisi] || x.kondisi}${x.durasi !== '—' ? ` · ${x.durasi} mnt` : ''}`;
+    } else if (x._cat === 'popok') {
+      detail = jenisLabel[x.jenis] || x.jenis;
+      if (x.warna && x.warna !== '-') detail += ` · BAB ${x.warna}`;
+    } else {
+      detail = `<strong>${x.berat.toLocaleString('id-ID')}g</strong>`;
+    }
+    return `<div class="log-item">
+      <div class="log-info">
+        <span class="log-time">
+          <span class="badge ${catBadge[x._cat]}" style="padding:3px 8px;font-size:10px">
+            <i class="ti ${catIcon[x._cat]}"></i> ${catName[x._cat]}
+          </span>
+          &nbsp;${x.tgl}${x.jam ? ` · ${x.jam}` : ''}
+        </span>
+        <span class="log-detail">${detail}</span>
+        ${x.catatan ? `<span class="log-note">"${x.catatan}"</span>` : ''}
+      </div>
+      <button class="delete-btn" onclick="hapus('${x._cat}',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
+    </div>`;
+  }).join('');
+}
+
+// ── Ekspor ───────────────────────────────────────────────
+function generateExport() {
+  const summary = {
+    digenerate: new Date().toLocaleString('id-ID'),
+    total_menyusui: data.menyusui.length,
+    total_popok: data.popok.length,
+    total_timbang: data.berat.length
+  };
+  const out = { ringkasan: summary, menyusui: data.menyusui, popok: data.popok, berat: data.berat };
+  document.getElementById('export-preview').textContent = JSON.stringify(out, null, 2);
+}
+
+function copyToClipboard() {
+  const preview = document.getElementById('export-preview');
+  if (preview.textContent.includes('Ketuk')) generateExport();
+  navigator.clipboard.writeText(preview.textContent)
+    .then(() => { showToast('✓ Tersalin! Paste ke Claude'); haptic('medium'); })
+    .catch(() => showToast('⚠️ Gagal menyalin, coba lagi'));
+}
+
+function downloadJSON() {
+  generateExport();
+  const txt = document.getElementById('export-preview').textContent;
+  const blob = new Blob([txt], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'catatan-bayi-' + todayStr() + '.json';
+  a.click();
+  showToast('✓ File JSON diunduh');
+  haptic('medium');
+}
+
+function resetData() {
+  if (confirm('Hapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
+    data = { menyusui: [], popok: [], berat: [] };
+    save();
+    renderMenyusui();
+    renderSemua();
+    document.getElementById('export-preview').textContent = 'Ketuk Generate untuk melihat data';
+    showToast('🗑 Semua data dihapus');
+    haptic('error');
+  }
+}
+
+// ── Dismiss keyboard on outside tap ──────────────────────
+document.addEventListener('touchend', function(e) {
+  if (!e.target.closest('input, textarea, select')) {
+    if (document.activeElement && ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
+      document.activeElement.blur();
+    }
+  }
+}, { passive: true });
+
+// ── Init ─────────────────────────────────────────────────
+setDefaults();
+renderMenyusui();
+updateStorageInfo();
+</script>
+</body>
+</html>
