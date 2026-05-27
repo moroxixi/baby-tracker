@@ -523,6 +523,149 @@ input[type="number"] {
 .empty p { font-size: 14px; }
 .empty span { font-size: 12px; display: block; margin-top: 6px; opacity: 0.7; }
 
+/* ── Penghitung Menyusui ── */
+.timer-card {
+  background: linear-gradient(135deg, var(--blush-light) 0%, var(--sky-light) 100%);
+  border: 1.5px solid rgba(224, 112, 80, 0.25);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-md);
+}
+.last-feed-info {
+  background: rgba(224, 112, 80, 0.12);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(224, 112, 80, 0.2);
+}
+.last-feed-info i { color: var(--terracotta); font-size: 20px; flex-shrink: 0; }
+.last-feed-text { flex: 1; }
+.last-feed-text strong { font-size: 14px; display: block; color: var(--text-primary); }
+.last-feed-text span { font-size: 12px; color: var(--text-secondary); }
+
+.jam-input-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 0; }
+.btn-ambil {
+  padding: 13px 14px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--terracotta);
+  background: transparent;
+  color: var(--terracotta);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-ambil:active { background: var(--terracotta); color: white; }
+
+.estimasi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
+.estimasi-item {
+  background: var(--cream);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 6px;
+  text-align: center;
+  transition: all 0.2s;
+}
+.estimasi-item.lewat   { opacity: 0.4; }
+.estimasi-item.segera  { border-color: var(--amber); background: var(--amber-light); }
+.estimasi-item.sekarang { border-color: var(--terracotta); background: var(--blush-light); box-shadow: 0 0 0 3px rgba(224,112,80,0.2); }
+.estimasi-item.akan    { border-color: var(--sage); background: var(--sage-light); }
+.est-label   { font-size: 9px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 4px; }
+.est-jam     { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; color: var(--text-primary); line-height: 1; }
+.est-selisih { font-size: 10px; color: var(--text-secondary); margin-top: 3px; }
+.est-status  { font-size: 9px; font-weight: 600; margin-top: 3px; text-transform: uppercase; letter-spacing: 0.4px; }
+.estimasi-item.lewat    .est-status { color: var(--text-muted); }
+.estimasi-item.segera   .est-status { color: var(--amber); }
+.estimasi-item.sekarang .est-status { color: var(--terracotta); }
+.estimasi-item.akan     .est-status { color: var(--sage); }
+
+/* Timer countdown */
+.timer-display {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 14px;
+  position: relative;
+  overflow: hidden;
+}
+.timer-display::before {
+  content: '';
+  position: absolute;
+  top: -30px; right: -30px;
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(224, 112, 80, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.timer-label  { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+.timer-clock  { font-family: 'Fraunces', serif; font-size: 48px; font-weight: 300; color: var(--text-primary); line-height: 1; letter-spacing: -1px; }
+.timer-clock.warning { color: var(--amber); }
+.timer-clock.alert   { color: #E88A80; animation: pulse-red 1s ease infinite; }
+@keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
+.timer-sub    { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
+.timer-target { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
+
+.timer-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.btn-timer {
+  padding: 14px 11px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-timer-start { background: var(--sage); color: white; }
+.btn-timer-start:active { opacity: 0.85; }
+.btn-timer-stop  { background: var(--blush-light); color: #E88A80; border: 1.5px solid rgba(232,138,128,0.3); }
+.btn-timer-stop:active { opacity: 0.85; }
+.btn-timer-notif {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid var(--cream-dark);
+  background: var(--cream);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+  min-height: 48px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.btn-timer-notif.active { background: var(--sky-light); border-color: var(--sky); color: #7ABCDC; }
+.btn-timer-notif:active { opacity: 0.8; }
+.notif-status { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px; }
+
+.timer-progress-wrap { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+.timer-progress-bar  { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sage), #7AC07A); transition: width 0.5s ease, background 0.5s; }
+.timer-progress-bar.warning { background: linear-gradient(90deg, var(--amber), #D89050); }
+.timer-progress-bar.alert   { background: linear-gradient(90deg, #C05050, #E08080); }
+
 /* ── Import Zone ── */
 .import-zone {
   border: 2px dashed var(--blush);
@@ -822,6 +965,81 @@ input[type="number"] {
     </div>
   </div>
 
+  <!-- ══ PENGHITUNG MENYUSUI ══ -->
+  <div id="sec-hitung" class="section">
+
+    <div class="timer-card">
+      <div class="card-title"><i class="ti ti-clock-hour-4"></i>Penghitung Menyusui</div>
+
+      <div class="last-feed-info" id="last-feed-box">
+        <i class="ti ti-info-circle"></i>
+        <div class="last-feed-text">
+          <strong id="last-feed-jam">—</strong>
+          <span id="last-feed-detail">Belum ada data menyusui</span>
+        </div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Jam Terakhir Menyusui</label>
+        <div class="jam-input-row">
+          <input type="time" id="h-jam-terakhir">
+          <button class="btn-ambil" onclick="ambilDariData()"><i class="ti ti-arrow-down-circle"></i> Dari Data</button>
+        </div>
+      </div>
+      <button class="btn-add" style="margin-top:4px;margin-bottom:16px" onclick="hitungEstimasi()">
+        <i class="ti ti-calculator"></i> Hitung Estimasi
+      </button>
+
+      <div style="font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">
+        Estimasi Waktu Menyusui Berikutnya
+      </div>
+      <div class="estimasi-grid" id="estimasi-grid">
+        <div class="estimasi-item" id="est-30"><div class="est-label">30 mnt</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-60"><div class="est-label">1 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-90"><div class="est-label">1½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-120"><div class="est-label">2 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-150"><div class="est-label">2½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-180"><div class="est-label">3 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+      </div>
+    </div>
+
+    <!-- Timer countdown -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-alarm"></i>Timer Pengingat</div>
+
+      <div class="timer-display">
+        <div class="timer-label" id="timer-label">Pilih target &amp; mulai timer</div>
+        <div class="timer-clock" id="timer-clock">00:00:00</div>
+        <div class="timer-sub" id="timer-sub">—</div>
+        <div class="timer-target" id="timer-target"></div>
+        <div class="timer-progress-wrap"><div class="timer-progress-bar" id="timer-bar" style="width:0%"></div></div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Target Menyusui Berikutnya</label>
+        <select id="timer-target-sel">
+          <option value="30">30 menit</option>
+          <option value="60" selected>1 jam</option>
+          <option value="90">1 jam 30 menit</option>
+          <option value="120">2 jam</option>
+          <option value="150">2 jam 30 menit</option>
+          <option value="180">3 jam</option>
+        </select>
+      </div>
+
+      <div class="timer-controls">
+        <button class="btn-timer btn-timer-start" id="btn-start" onclick="startTimer()"><i class="ti ti-player-play"></i> Mulai</button>
+        <button class="btn-timer btn-timer-stop" id="btn-stop" onclick="stopTimer()" disabled><i class="ti ti-player-stop"></i> Stop</button>
+      </div>
+      <button class="btn-timer-notif" id="btn-notif" onclick="toggleNotif()">
+        <i class="ti ti-bell" id="notif-icon"></i>
+        <span id="notif-label">Aktifkan Notifikasi Suara</span>
+      </button>
+      <div class="notif-status" id="notif-status">Notifikasi: Nonaktif</div>
+    </div>
+
+  </div>
+
   <!-- ══ POPOK ══ -->
   <div id="sec-popok" class="section">
     <div class="card">
@@ -1006,6 +1224,10 @@ input[type="number"] {
   <button class="tab active" onclick="switchTab('menyusui',this)">
     <i class="ti ti-droplet"></i>
     <span class="tab-label">Menyusui</span>
+  </button>
+  <button class="tab" onclick="switchTab('hitung',this)">
+    <i class="ti ti-clock-hour-4"></i>
+    <span class="tab-label">Hitung</span>
   </button>
   <button class="tab" onclick="switchTab('popok',this)">
     <i class="ti ti-baby-carriage"></i>
