@@ -36,13 +36,10 @@
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
-
-  /* iOS safe area */
   --safe-top: env(safe-area-inset-top, 0px);
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
-
   --tab-height: 72px;
   --radius-xs: 8px;
   --radius-sm: 12px;
@@ -52,9 +49,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 html { height: 100%; }
-
 body {
   font-family: 'DM Sans', sans-serif;
   background: var(--cream);
@@ -63,38 +58,27 @@ body {
   min-height: -webkit-fill-available;
   position: relative;
   overflow-x: hidden;
-  /* Prevent iOS bounce */
   overscroll-behavior: none;
-  /* Smooth text rendering */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-/* Ambient glows */
 body::before {
   content: '';
   position: fixed;
-  top: -120px;
-  right: -80px;
-  width: 400px;
-  height: 400px;
+  top: -120px; right: -80px;
+  width: 400px; height: 400px;
   background: radial-gradient(circle, rgba(242, 196, 176, 0.35) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; z-index: 0;
 }
 body::after {
   content: '';
   position: fixed;
-  bottom: 0;
-  left: -80px;
-  width: 350px;
-  height: 350px;
+  bottom: 0; left: -80px;
+  width: 350px; height: 350px;
   background: radial-gradient(circle, rgba(122, 158, 126, 0.2) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  pointer-events: none; z-index: 0;
 }
 
-/* ── Main scroll container ── */
 .app {
   max-width: 480px;
   margin: 0 auto;
@@ -106,14 +90,8 @@ body::after {
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
+.log-list { -webkit-overflow-scrolling: touch; overflow-y: auto; }
 
-/* Smooth momentum scrolling on iOS */
-.log-list {
-  -webkit-overflow-scrolling: touch;
-  overflow-y: auto;
-}
-
-/* ── Header ── */
 .header {
   padding: 20px 0 20px;
   display: flex;
@@ -121,98 +99,56 @@ body::after {
   gap: 14px;
 }
 .header-icon {
-  width: 52px;
-  height: 52px;
+  width: 52px; height: 52px;
   background: linear-gradient(135deg, var(--blush) 0%, var(--terracotta) 100%);
   border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: white;
-  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: white; flex-shrink: 0;
   box-shadow: 0 4px 16px rgba(196, 98, 58, 0.35);
 }
 .header-text h1 {
   font-family: 'Fraunces', serif;
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 24px; font-weight: 400;
   color: var(--text-primary);
-  line-height: 1.1;
-  letter-spacing: -0.3px;
+  line-height: 1.1; letter-spacing: -0.3px;
 }
 .header-text p {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-  font-weight: 300;
-  line-height: 1.4;
+  font-size: 12px; color: var(--text-secondary);
+  margin-top: 4px; font-weight: 300; line-height: 1.4;
 }
 
-/* ── Bottom Tab Bar (iOS native style) ── */
 .tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
   background: rgba(26, 20, 16, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
   padding-bottom: var(--safe-bottom);
-  display: flex;
-  align-items: stretch;
+  display: flex; align-items: stretch;
 }
 .tab {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  padding: 10px 6px 8px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 10px;
-  color: var(--text-muted);
-  font-weight: 400;
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 3px; padding: 10px 6px 8px;
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 10px;
+  color: var(--text-muted); font-weight: 400;
   transition: color 0.2s ease;
   min-height: var(--tab-height);
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  position: relative;
+  touch-action: manipulation; position: relative;
 }
-.tab i {
-  font-size: 22px;
-  transition: transform 0.15s ease;
-}
-.tab.active {
-  color: var(--terracotta);
-  font-weight: 500;
-}
-.tab.active i {
-  transform: translateY(-1px);
-}
-/* Tap ripple */
+.tab i { font-size: 22px; transition: transform 0.15s ease; }
+.tab.active { color: var(--terracotta); font-weight: 500; }
+.tab.active i { transform: translateY(-1px); }
 .tab::after {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border-radius: 14px;
-  background: var(--terracotta);
-  opacity: 0;
-  transition: opacity 0.1s;
+  content: ''; position: absolute; inset: 4px;
+  border-radius: 14px; background: var(--terracotta);
+  opacity: 0; transition: opacity 0.1s;
 }
-.tab:active::after {
-  opacity: 0.12;
-}
+.tab:active::after { opacity: 0.12; }
 .tab-label { position: relative; z-index: 1; }
 .tab i { position: relative; z-index: 1; }
 
-/* ── Sections ── */
 .section { display: none; }
 .section.active { display: block; animation: fadeUp 0.22s ease; }
 @keyframes fadeUp {
@@ -220,49 +156,36 @@ body::after {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Card ── */
 .card {
   background: var(--warm-white);
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
-  padding: 20px;
-  margin-bottom: 14px;
+  padding: 20px; margin-bottom: 14px;
   box-shadow: var(--shadow-sm);
 }
 .card-title {
   font-family: 'Fraunces', serif;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 16px; font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items: center; gap: 8px;
 }
-.card-title i {
-  color: var(--terracotta);
-  font-size: 18px;
-}
+.card-title i { color: var(--terracotta); font-size: 18px; }
 
-/* ── Form controls — iOS optimized ── */
 .form-row   { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 .form-group.full { grid-column: 1 / -1; }
 
 label {
-  font-size: 11px;
-  font-weight: 500;
+  font-size: 11px; font-weight: 500;
   color: var(--text-secondary);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding-left: 2px;
+  letter-spacing: 0.5px; text-transform: uppercase; padding-left: 2px;
 }
 
-/* iOS tap target: min 44px height */
 input, select, textarea {
   font-family: 'DM Sans', sans-serif;
-  font-size: 16px; /* prevents iOS zoom on focus! */
+  font-size: 16px;
   padding: 13px 14px;
   border-radius: var(--radius-sm);
   border: 1.5px solid var(--cream-dark);
@@ -271,9 +194,8 @@ input, select, textarea {
   width: 100%;
   transition: border-color 0.15s, box-shadow 0.15s;
   outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  min-height: 48px; /* iOS minimum touch target */
+  -webkit-appearance: none; appearance: none;
+  min-height: 48px;
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--blush);
@@ -281,68 +203,68 @@ input:focus, select:focus, textarea:focus {
   background: var(--warm-white);
 }
 textarea {
-  resize: none; /* prevent iOS resize handle overlap */
-  min-height: 76px;
-  line-height: 1.55;
+  resize: none; min-height: 76px; line-height: 1.55;
 }
 select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23B09A85' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 14px center;
-  padding-right: 36px;
-  cursor: pointer;
+  padding-right: 36px; cursor: pointer;
 }
-
-/* Date/time inputs on iOS */
 input[type="date"],
 input[type="time"],
-input[type="number"] {
-  color-scheme: dark;
+input[type="number"] { color-scheme: dark; }
+
+.durasi-computed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--sage-light);
+  border: 1.5px solid rgba(90, 138, 94, 0.35);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-height: 48px;
+  transition: all 0.2s;
 }
+.durasi-computed.has-value {
+  background: var(--blush-light);
+  border-color: rgba(224, 112, 80, 0.4);
+  color: var(--terracotta);
+  font-weight: 500;
+}
+.durasi-computed i { font-size: 16px; color: var(--sage); flex-shrink: 0; }
+.durasi-computed.has-value i { color: var(--terracotta); }
 
 .mb-12 { margin-bottom: 12px; }
 
-/* ── Primary button ── */
 .btn-add {
-  width: 100%;
-  padding: 16px;
+  width: 100%; padding: 16px;
   border-radius: var(--radius-md);
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
+  font-size: 15px; font-weight: 500;
+  cursor: pointer; border: none;
   background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-dark) 100%);
-  color: white;
-  margin-top: 10px;
+  color: white; margin-top: 10px;
   transition: opacity 0.15s, transform 0.1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  letter-spacing: 0.1px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px; letter-spacing: 0.1px;
   box-shadow: 0 4px 16px rgba(196, 98, 58, 0.35);
-  min-height: 52px; /* comfortable iOS touch */
+  min-height: 52px;
   -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  user-select: none;
+  touch-action: manipulation; user-select: none;
 }
 .btn-add:active { opacity: 0.85; transform: scale(0.98); }
 
-/* ── Secondary buttons ── */
 .btn-export {
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
+  padding: 12px 16px; border-radius: var(--radius-sm);
   font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 14px; font-weight: 500;
   cursor: pointer;
   border: 1.5px solid var(--cream-dark);
-  background: var(--cream);
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  background: var(--cream); color: var(--text-primary);
+  display: flex; align-items: center; gap: 7px;
   transition: background 0.15s, border-color 0.15s;
   min-height: 48px;
   -webkit-tap-highlight-color: transparent;
@@ -351,35 +273,21 @@ input[type="number"] {
 .btn-export:active { background: var(--cream-dark); }
 .btn-danger { background: #3A1A18; border-color: #5A2A24; color: #E88A80; }
 .btn-danger:active { background: #4A2220; }
-.btn-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.btn-row .btn-danger {
-  grid-column: 1 / -1;
-}
+.btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-row .btn-danger { grid-column: 1 / -1; }
 
-/* ── Stats ── */
 .section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  padding: 0 2px;
+  display: flex; justify-content: space-between;
+  align-items: center; margin-bottom: 12px; padding: 0 2px;
 }
 .section-header h2 {
   font-family: 'Fraunces', serif;
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--text-primary);
+  font-size: 18px; font-weight: 400; color: var(--text-primary);
 }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-bottom: 14px;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 8px; margin-bottom: 14px;
 }
 .stats-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
 
@@ -387,44 +295,29 @@ input[type="number"] {
   background: var(--warm-white);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 14px 10px;
-  text-align: center;
+  padding: 14px 10px; text-align: center;
   box-shadow: var(--shadow-sm);
 }
 .stat-label {
-  font-size: 9px;
-  color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  font-size: 9px; color: var(--text-muted);
+  font-weight: 500; letter-spacing: 0.5px;
+  text-transform: uppercase; margin-bottom: 6px;
 }
 .stat-value {
   font-family: 'Fraunces', serif;
-  font-size: 22px;
-  font-weight: 300;
-  color: var(--text-primary);
-  line-height: 1;
+  font-size: 22px; font-weight: 300;
+  color: var(--text-primary); line-height: 1;
 }
 .stat-value .unit {
-  font-size: 10px;
-  color: var(--text-secondary);
-  font-family: 'DM Sans', sans-serif;
-  font-weight: 400;
-  display: block;
-  margin-top: 4px;
+  font-size: 10px; color: var(--text-secondary);
+  font-family: 'DM Sans', sans-serif; font-weight: 400;
+  display: block; margin-top: 4px;
 }
 
-/* ── Badge ── */
 .badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 5px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.2px;
 }
 .badge-blue  { background: var(--sky-light);   color: #7ABCDC; }
 .badge-green { background: var(--sage-light);  color: #7ABE80; }
@@ -433,16 +326,11 @@ input[type="number"] {
 .badge-teal  { background: #0E2820;            color: #60C0B0; }
 .badge-plum  { background: var(--plum-light);  color: var(--plum); }
 
-/* ── Log list ── */
 .log-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 400px;
-  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 8px;
+  max-height: 400px; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding-right: 2px;
-  scroll-behavior: smooth;
+  padding-right: 2px; scroll-behavior: smooth;
 }
 .log-list::-webkit-scrollbar { width: 0; }
 
@@ -451,95 +339,61 @@ input[type="number"] {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   padding: 14px 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 10px;
+  display: flex; justify-content: space-between;
+  align-items: flex-start; gap: 10px;
   animation: slideIn 0.2s ease;
 }
 @keyframes slideIn {
   from { opacity: 0; transform: translateX(-6px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-
 .log-info { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
 .log-time {
-  font-size: 11px;
-  color: var(--text-muted);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  flex-wrap: wrap;
+  font-size: 11px; color: var(--text-muted);
+  display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
 }
 .log-time i { font-size: 12px; }
 .log-detail {
-  font-size: 13px;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
+  font-size: 13px; color: var(--text-primary);
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
 }
 .log-note {
-  font-size: 12px;
-  color: var(--text-secondary);
-  font-style: italic;
-  line-height: 1.4;
-  /* Prevent overflow on narrow screens */
-  overflow-wrap: break-word;
-  word-break: break-word;
+  font-size: 12px; color: var(--text-secondary);
+  font-style: italic; line-height: 1.4;
+  overflow-wrap: break-word; word-break: break-word;
 }
 
-/* Delete button — bigger touch target on iOS */
 .delete-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-muted);
-  padding: 0;
-  border-radius: 10px;
-  font-size: 16px;
-  flex-shrink: 0;
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); padding: 0;
+  border-radius: 10px; font-size: 16px; flex-shrink: 0;
   transition: color 0.15s, background 0.15s;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  /* Large touch area */
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
   margin: -6px -6px -6px 0;
 }
 .delete-btn:active { color: #E88A80; background: rgba(232, 138, 128, 0.15); }
 
-/* ── Empty state ── */
 .empty {
-  text-align: center;
-  padding: 40px 20px;
-  color: var(--text-muted);
+  text-align: center; padding: 40px 20px; color: var(--text-muted);
 }
 .empty i { font-size: 40px; display: block; margin: 0 auto 12px; opacity: 0.4; }
 .empty p { font-size: 14px; }
 .empty span { font-size: 12px; display: block; margin-top: 6px; opacity: 0.7; }
 
-/* ── Penghitung Menyusui ── */
 .timer-card {
   background: linear-gradient(135deg, var(--blush-light) 0%, var(--sky-light) 100%);
   border: 1.5px solid rgba(224, 112, 80, 0.25);
   border-radius: var(--radius-xl);
-  padding: 20px;
-  margin-bottom: 14px;
+  padding: 20px; margin-bottom: 14px;
   box-shadow: var(--shadow-md);
 }
 .last-feed-info {
   background: rgba(224, 112, 80, 0.12);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  padding: 12px 14px; margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
   border: 1px solid rgba(224, 112, 80, 0.2);
 }
 .last-feed-info i { color: var(--terracotta); font-size: 20px; flex-shrink: 0; }
@@ -549,33 +403,33 @@ input[type="number"] {
 
 .jam-input-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: end; margin-bottom: 0; }
 .btn-ambil {
-  padding: 13px 14px;
-  border-radius: var(--radius-sm);
+  padding: 13px 14px; border-radius: var(--radius-sm);
   border: 1.5px solid var(--terracotta);
-  background: transparent;
-  color: var(--terracotta);
+  background: transparent; color: var(--terracotta);
   font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-  min-height: 48px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+  transition: all 0.15s; min-height: 48px;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
 .btn-ambil:active { background: var(--terracotta); color: white; }
 
 .estimasi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px; }
 .estimasi-item {
-  background: var(--cream);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 10px 6px;
-  text-align: center;
-  transition: all 0.2s;
+  background: var(--cream); border: 1.5px solid var(--border);
+  border-radius: var(--radius-md); padding: 10px 6px; text-align: center; transition: all 0.2s;
+  cursor: pointer; position: relative;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.estimasi-item.lewat   { opacity: 0.4; }
+.estimasi-item:active { transform: scale(0.96); }
+/* Timer terpasang indicator */
+.estimasi-item.timer-terpasang::after {
+  content: '⏱';
+  position: absolute; top: 4px; right: 5px;
+  font-size: 9px; line-height: 1;
+}
+.estimasi-item.lewat   { opacity: 0.4; cursor: default; }
+.estimasi-item.lewat:active { transform: none; }
 .estimasi-item.segera  { border-color: var(--amber); background: var(--amber-light); }
 .estimasi-item.sekarang { border-color: var(--terracotta); background: var(--blush-light); box-shadow: 0 0 0 3px rgba(224,112,80,0.2); }
 .estimasi-item.akan    { border-color: var(--sage); background: var(--sage-light); }
@@ -588,21 +442,23 @@ input[type="number"] {
 .estimasi-item.sekarang .est-status { color: var(--terracotta); }
 .estimasi-item.akan     .est-status { color: var(--sage); }
 
-/* Timer countdown */
+/* Tip ketuk estimasi */
+.estimasi-tip {
+  font-size: 11px; color: var(--text-muted); text-align: center;
+  margin-top: 6px; margin-bottom: 0;
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.estimasi-tip i { font-size: 12px; color: var(--terracotta); }
+
 .timer-display {
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 14px;
-  position: relative;
-  overflow: hidden;
+  padding: 20px; text-align: center; margin-bottom: 14px;
+  position: relative; overflow: hidden;
 }
 .timer-display::before {
-  content: '';
-  position: absolute;
-  top: -30px; right: -30px;
+  content: ''; position: absolute; top: -30px; right: -30px;
   width: 100px; height: 100px;
   background: radial-gradient(circle, rgba(224, 112, 80, 0.15) 0%, transparent 70%);
   pointer-events: none;
@@ -613,276 +469,171 @@ input[type="number"] {
 .timer-clock.alert   { color: #E88A80; animation: pulse-red 1s ease infinite; }
 @keyframes pulse-red { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
 .timer-sub    { font-size: 12px; color: var(--text-secondary); margin-top: 6px; }
-.timer-target { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
-
-.timer-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
-.btn-timer {
-  padding: 14px 11px;
-  border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: all 0.15s;
-  min-height: 48px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.btn-timer-start { background: var(--sage); color: white; }
-.btn-timer-start:active { opacity: 0.85; }
-.btn-timer-stop  { background: var(--blush-light); color: #E88A80; border: 1.5px solid rgba(232,138,128,0.3); }
-.btn-timer-stop:active { opacity: 0.85; }
-.btn-timer-notif {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--radius-sm);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  border: 1.5px solid var(--cream-dark);
-  background: var(--cream);
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  transition: all 0.15s;
-  min-height: 48px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-}
-.btn-timer-notif.active { background: var(--sky-light); border-color: var(--sky); color: #7ABCDC; }
-.btn-timer-notif:active { opacity: 0.8; }
-.notif-status { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px; }
+.timer-target-lbl { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-top: 4px; }
 
 .timer-progress-wrap { height: 5px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 10px; overflow: hidden; }
 .timer-progress-bar  { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--sage), #7AC07A); transition: width 0.5s ease, background 0.5s; }
 .timer-progress-bar.warning { background: linear-gradient(90deg, var(--amber), #D89050); }
 .timer-progress-bar.alert   { background: linear-gradient(90deg, #C05050, #E08080); }
 
-/* ── Import Zone ── */
+/* Timer target pill — shows which estimasi is selected */
+.timer-target-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--blush-light);
+  border: 1.5px solid rgba(224,112,80,0.35);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px; margin-bottom: 12px;
+  font-size: 13px; color: var(--text-secondary);
+  min-height: 48px; transition: all 0.2s;
+}
+.timer-target-pill.set {
+  background: var(--sky-light);
+  border-color: var(--sky);
+  color: #7ABCDC;
+}
+.timer-target-pill i { font-size: 16px; flex-shrink: 0; color: var(--terracotta); }
+.timer-target-pill.set i { color: var(--sky); }
+.timer-target-pill span { flex: 1; line-height: 1.4; }
+
+.timer-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.btn-timer {
+  padding: 14px 11px; border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px; font-weight: 500;
+  cursor: pointer; border: none;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.15s; min-height: 48px;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.btn-timer-start { background: var(--sage); color: white; }
+.btn-timer-start:active { opacity: 0.85; }
+.btn-timer-start:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-timer-stop  { background: var(--blush-light); color: #E88A80; border: 1.5px solid rgba(232,138,128,0.3); }
+.btn-timer-stop:active { opacity: 0.85; }
+.btn-timer-stop:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-timer-notif {
+  width: 100%; padding: 12px; border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 1.5px solid var(--cream-dark);
+  background: var(--cream); color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  transition: all 0.15s; min-height: 48px;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+}
+.btn-timer-notif.active { background: var(--sky-light); border-color: var(--sky); color: #7ABCDC; }
+.btn-timer-notif:active { opacity: 0.8; }
+.notif-status { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 6px; }
+
 .import-zone {
   border: 2px dashed var(--blush);
   border-radius: var(--radius-lg);
-  padding: 24px 16px;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  padding: 24px 16px; text-align: center;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
   margin-bottom: 12px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
 }
-.import-zone:active,
-.import-zone.drag-over {
-  background: var(--blush-light);
-  border-color: var(--terracotta);
-}
+.import-zone:active, .import-zone.drag-over { background: var(--blush-light); border-color: var(--terracotta); }
 .import-zone i { font-size: 32px; color: var(--terracotta); display: block; margin-bottom: 8px; }
 .import-zone p { font-size: 13px; color: var(--text-secondary); }
 .import-zone span { font-size: 11px; color: var(--text-muted); display: block; margin-top: 4px; }
-.import-result {
-  font-size: 12px;
-  color: var(--sage);
-  padding: 8px 0;
-  display: none;
-  line-height: 1.5;
-}
+.import-result { font-size: 12px; color: var(--sage); padding: 8px 0; display: none; line-height: 1.5; }
 
-/* ── Export ── */
 .copy-box {
   background: var(--cream);
   border: 1.5px solid var(--cream-dark);
   border-radius: var(--radius-md);
-  padding: 14px;
-  font-size: 11px;
+  padding: 14px; font-size: 11px;
   font-family: 'Courier New', monospace;
-  white-space: pre-wrap;
-  word-break: break-all;
-  max-height: 200px;
-  overflow-y: auto;
+  white-space: pre-wrap; word-break: break-all;
+  max-height: 200px; overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  color: var(--text-secondary);
-  margin-bottom: 14px;
-  line-height: 1.5;
+  color: var(--text-secondary); margin-bottom: 14px; line-height: 1.5;
 }
 
-/* ── Toast — positioned above tab bar ── */
 .toast {
   position: fixed;
   bottom: calc(var(--tab-height) + var(--safe-bottom) + 12px);
-  left: 16px;
-  right: 16px;
+  left: 16px; right: 16px;
   transform: translateY(20px);
   background: rgba(240, 232, 223, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: var(--cream);
-  padding: 14px 20px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: var(--cream); padding: 14px 20px;
   border-radius: var(--radius-md);
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  z-index: 200;
-  box-shadow: var(--shadow-lg);
-  pointer-events: none;
-  text-align: center;
+  font-size: 14px; font-weight: 500;
+  opacity: 0; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 200; box-shadow: var(--shadow-lg);
+  pointer-events: none; text-align: center;
 }
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+.toast.show { opacity: 1; transform: translateY(0); }
 
-/* ── Riwayat filter ── */
 .riwayat-filter {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 2px;
-  /* Hide scrollbar */
-  scrollbar-width: none;
+  display: flex; gap: 6px; margin-bottom: 14px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px; scrollbar-width: none;
 }
 .riwayat-filter::-webkit-scrollbar { display: none; }
-
 .filter-btn {
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
+  padding: 8px 14px; border-radius: 20px;
+  font-size: 13px; font-weight: 500;
   border: 1.5px solid var(--cream-dark);
-  background: var(--cream);
-  color: var(--text-secondary);
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
+  background: var(--cream); color: var(--text-secondary);
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
   min-height: 38px;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  transition: all 0.15s;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: all 0.15s;
 }
-.filter-btn.active {
-  background: var(--terracotta);
-  border-color: var(--terracotta);
-  color: white;
-}
+.filter-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
 .filter-btn:active { opacity: 0.8; }
 
-/* ── Storage info ── */
 .storage-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 14px;
-  padding: 10px 14px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-muted);
+  margin-bottom: 14px; padding: 10px 14px;
   background: var(--sage-light);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(122, 158, 126, 0.25);
 }
 .storage-info i { color: var(--sage); font-size: 16px; flex-shrink: 0; }
 
-/* ── How to use ── */
 .how-to-card {
   background: linear-gradient(135deg, var(--blush-light) 0%, var(--sky-light) 100%);
   border: 1px solid rgba(196, 156, 128, 0.2);
   border-radius: var(--radius-xl);
-  padding: 20px;
-  margin-bottom: 14px;
+  padding: 20px; margin-bottom: 14px;
 }
-.how-to-card h3 {
-  font-family: 'Fraunces', serif;
-  font-size: 15px;
-  font-weight: 400;
-  margin-bottom: 14px;
-  color: var(--text-primary);
-}
+.how-to-card h3 { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 400; margin-bottom: 14px; color: var(--text-primary); }
 .how-to-steps { display: flex; flex-direction: column; gap: 10px; }
 .how-step {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.4;
+  display: flex; align-items: center; gap: 12px;
+  font-size: 13px; color: var(--text-secondary); line-height: 1.4;
 }
 .step-num {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--terracotta);
-  color: white;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--terracotta); color: white;
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
 
-/* ── Pull-to-refresh hint ── */
-.refresh-hint {
-  text-align: center;
-  padding: 8px;
-  font-size: 11px;
-  color: var(--text-muted);
-  opacity: 0.6;
-  margin-top: -4px;
-  margin-bottom: 8px;
-}
-
-/* ── Section quick badge ── */
-.section-header .badge {
-  font-size: 12px;
-  padding: 5px 12px;
-}
-
-/* ── Keyboard avoider: when keyboard is open on iOS ── */
 @supports (-webkit-touch-callout: none) {
-  .app {
-    /* Extra padding on older iOS that don't support env() */
-    padding-bottom: calc(var(--tab-height) + 34px + 16px);
-  }
+  .app { padding-bottom: calc(var(--tab-height) + 34px + 16px); }
 }
-
-/* Divider */
-.divider {
-  height: 1px;
-  background: var(--border);
-  margin: 16px 0;
-}
-
-/* Floating quick-date label */
+.divider { height: 1px; background: var(--border); margin: 16px 0; }
 .date-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--terracotta);
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  padding: 0 2px;
-  margin-bottom: 4px;
-  display: block;
+  font-size: 11px; font-weight: 600; color: var(--terracotta);
+  letter-spacing: 0.6px; text-transform: uppercase;
+  padding: 0 2px; margin-bottom: 4px; display: block;
 }
+.section-header .badge { font-size: 12px; padding: 5px 12px; }
 </style>
 </head>
 <body>
 
 <div class="app">
 
-  <!-- Header -->
   <div class="header">
     <div class="header-icon">🍼</div>
     <div class="header-text">
       <h1>Catatan Bayi</h1>
-      <p>Pantau menyusui, popok & tumbuh kembang si kecil</p>
+      <p>Pantau menyusui, popok &amp; tumbuh kembang si kecil</p>
     </div>
   </div>
 
@@ -898,11 +649,19 @@ input[type="number"] {
         </div>
         <div class="form-group">
           <label>Jam Mulai</label>
-          <input type="time" id="s-jam">
+          <input type="time" id="s-jam" oninput="hitungDurasiOtomatis()">
         </div>
         <div class="form-group">
-          <label>Durasi (mnt)</label>
-          <input type="number" id="s-durasi" min="1" max="60" placeholder="15" inputmode="numeric">
+          <label>Jam Selesai</label>
+          <input type="time" id="s-jam-selesai" oninput="hitungDurasiOtomatis()">
+        </div>
+      </div>
+
+      <div class="form-group mb-12">
+        <label>Durasi (otomatis)</label>
+        <div class="durasi-computed" id="durasi-preview">
+          <i class="ti ti-clock"></i>
+          <span id="durasi-text">Isi jam mulai &amp; selesai untuk melihat durasi</span>
         </div>
       </div>
 
@@ -967,7 +726,6 @@ input[type="number"] {
 
   <!-- ══ PENGHITUNG MENYUSUI ══ -->
   <div id="sec-hitung" class="section">
-
     <div class="timer-card">
       <div class="card-title"><i class="ti ti-clock-hour-4"></i>Penghitung Menyusui</div>
 
@@ -994,42 +752,48 @@ input[type="number"] {
         Estimasi Waktu Menyusui Berikutnya
       </div>
       <div class="estimasi-grid" id="estimasi-grid">
-        <div class="estimasi-item" id="est-30"><div class="est-label">30 mnt</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
-        <div class="estimasi-item" id="est-60"><div class="est-label">1 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
-        <div class="estimasi-item" id="est-90"><div class="est-label">1½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
-        <div class="estimasi-item" id="est-120"><div class="est-label">2 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
-        <div class="estimasi-item" id="est-150"><div class="est-label">2½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
-        <div class="estimasi-item" id="est-180"><div class="est-label">3 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div></div>
+        <div class="estimasi-item" id="est-30"  onclick="pasangTimerDariEstimasi('est-30')">
+          <div class="est-label">30 mnt</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
+        <div class="estimasi-item" id="est-60"  onclick="pasangTimerDariEstimasi('est-60')">
+          <div class="est-label">1 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
+        <div class="estimasi-item" id="est-90"  onclick="pasangTimerDariEstimasi('est-90')">
+          <div class="est-label">1½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
+        <div class="estimasi-item" id="est-120" onclick="pasangTimerDariEstimasi('est-120')">
+          <div class="est-label">2 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
+        <div class="estimasi-item" id="est-150" onclick="pasangTimerDariEstimasi('est-150')">
+          <div class="est-label">2½ jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
+        <div class="estimasi-item" id="est-180" onclick="pasangTimerDariEstimasi('est-180')">
+          <div class="est-label">3 jam</div><div class="est-jam">—:—</div><div class="est-selisih">—</div><div class="est-status">–</div>
+        </div>
       </div>
+      <p class="estimasi-tip"><i class="ti ti-hand-click"></i> Ketuk estimasi untuk pasang timer tepat ke jam itu</p>
     </div>
 
-    <!-- Timer countdown -->
     <div class="card">
       <div class="card-title"><i class="ti ti-alarm"></i>Timer Pengingat</div>
 
+      <!-- Pill showing which target is loaded -->
+      <div class="timer-target-pill" id="timer-pill">
+        <i class="ti ti-target"></i>
+        <span id="timer-pill-text">Ketuk salah satu estimasi di atas untuk set timer</span>
+      </div>
+
       <div class="timer-display">
-        <div class="timer-label" id="timer-label">Pilih target &amp; mulai timer</div>
-        <div class="timer-clock" id="timer-clock">00:00:00</div>
+        <div class="timer-label" id="timer-label">Belum ada target dipilih</div>
+        <div class="timer-clock" id="timer-clock">--:--:--</div>
         <div class="timer-sub" id="timer-sub">—</div>
-        <div class="timer-target" id="timer-target"></div>
+        <div class="timer-target-lbl" id="timer-target"></div>
         <div class="timer-progress-wrap"><div class="timer-progress-bar" id="timer-bar" style="width:0%"></div></div>
       </div>
 
-      <div class="form-group mb-12">
-        <label>Target Menyusui Berikutnya</label>
-        <select id="timer-target-sel">
-          <option value="30">30 menit</option>
-          <option value="60" selected>1 jam</option>
-          <option value="90">1 jam 30 menit</option>
-          <option value="120">2 jam</option>
-          <option value="150">2 jam 30 menit</option>
-          <option value="180">3 jam</option>
-        </select>
-      </div>
-
       <div class="timer-controls">
-        <button class="btn-timer btn-timer-start" id="btn-start" onclick="startTimer()"><i class="ti ti-player-play"></i> Mulai</button>
-        <button class="btn-timer btn-timer-stop" id="btn-stop" onclick="stopTimer()" disabled><i class="ti ti-player-stop"></i> Stop</button>
+        <button class="btn-timer btn-timer-start" id="btn-start" onclick="startTimer()" disabled><i class="ti ti-player-play"></i> Mulai</button>
+        <button class="btn-timer btn-timer-stop"  id="btn-stop"  onclick="stopTimer()"  disabled><i class="ti ti-player-stop"></i> Stop</button>
       </div>
       <button class="btn-timer-notif" id="btn-notif" onclick="toggleNotif()">
         <i class="ti ti-bell" id="notif-icon"></i>
@@ -1037,7 +801,6 @@ input[type="number"] {
       </button>
       <div class="notif-status" id="notif-status">Notifikasi: Nonaktif</div>
     </div>
-
   </div>
 
   <!-- ══ POPOK ══ -->
@@ -1159,7 +922,6 @@ input[type="number"] {
       Data tersimpan otomatis — <strong id="data-size">menghitung…</strong>
     </div>
 
-    <!-- Import JSON -->
     <div class="card">
       <div class="card-title"><i class="ti ti-file-import"></i>Muat Data dari File JSON</div>
       <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.6">
@@ -1219,7 +981,6 @@ input[type="number"] {
   </div>
 </div><!-- .app -->
 
-<!-- Bottom Tab Bar -->
 <nav class="tab-bar">
   <button class="tab active" onclick="switchTab('menyusui',this)">
     <i class="ti ti-droplet"></i>
@@ -1276,14 +1037,18 @@ let data = loadData();
 let currentFilter = 'semua';
 
 // ── Timer state ───────────────────────────────────────────
-let timerInterval = null;
-let timerEnd = null;
-let timerDuration = 0;
-let timerFired = false;
-let notifAktif = false;
-let audioCtx = null;
+let timerInterval  = null;
+let timerEnd       = null;   // absolute timestamp (ms) target will fire
+let timerStart     = null;   // absolute timestamp (ms) when timer was started
+let timerFired     = false;
+let notifAktif     = false;
+let audioCtx       = null;
 
-// ── Haptic feedback (iOS) ──────────────────────────────
+// Stores the currently selected estimasi target (jam string "HH:MM")
+let selectedEstimasiJam = null;
+let selectedEstimasiLabel = null;
+
+// ── Haptic ────────────────────────────────────────────────
 function haptic(type = 'light') {
   if ('vibrate' in navigator) {
     const patterns = { light: [10], medium: [20], error: [30, 10, 30] };
@@ -1291,7 +1056,7 @@ function haptic(type = 'light') {
   }
 }
 
-// ── Utilities ────────────────────────────────────────────
+// ── Utilities ─────────────────────────────────────────────
 function now() {
   const d = new Date();
   return {
@@ -1321,7 +1086,46 @@ function showToast(msg) {
   t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-// ── Tabs ─────────────────────────────────────────────────
+// ── Hitung durasi otomatis ────────────────────────────────
+function hitungSelisihMenit(jamMulai, jamSelesai) {
+  if (!jamMulai || !jamSelesai) return null;
+  const [h1, m1] = jamMulai.split(':').map(Number);
+  const [h2, m2] = jamSelesai.split(':').map(Number);
+  let menit = (h2 * 60 + m2) - (h1 * 60 + m1);
+  if (menit < 0) menit += 24 * 60;
+  return menit;
+}
+
+function hitungDurasiOtomatis() {
+  const mulai   = document.getElementById('s-jam').value;
+  const selesai = document.getElementById('s-jam-selesai').value;
+  const preview = document.getElementById('durasi-preview');
+  const text    = document.getElementById('durasi-text');
+
+  if (!mulai || !selesai) {
+    preview.classList.remove('has-value');
+    text.textContent = 'Isi jam mulai & selesai untuk melihat durasi';
+    return;
+  }
+
+  const menit = hitungSelisihMenit(mulai, selesai);
+  if (menit === null || menit <= 0) {
+    preview.classList.remove('has-value');
+    text.textContent = 'Jam selesai harus lebih dari jam mulai';
+    return;
+  }
+
+  preview.classList.add('has-value');
+  if (menit >= 60) {
+    const j = Math.floor(menit / 60);
+    const m = menit % 60;
+    text.textContent = `${j} jam ${m > 0 ? m + ' menit' : ''} (${menit} mnt) · ${mulai} – ${selesai}`;
+  } else {
+    text.textContent = `${menit} menit · ${mulai} – ${selesai}`;
+  }
+}
+
+// ── Tabs ──────────────────────────────────────────────────
 function switchTab(tab, btn) {
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
@@ -1330,7 +1134,6 @@ function switchTab(tab, btn) {
   const sec = document.getElementById('sec-' + tab);
   if (sec) sec.classList.add('active');
 
-  // Scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
   if (tab === 'menyusui') renderMenyusui();
@@ -1342,20 +1145,31 @@ function switchTab(tab, btn) {
   haptic('light');
 }
 
-// ── Tambah ───────────────────────────────────────────────
+// ── Tambah Menyusui ───────────────────────────────────────
 function tambahMenyusui() {
-  const tgl  = document.getElementById('s-tanggal').value;
-  const jam  = document.getElementById('s-jam').value;
-  const dur  = document.getElementById('s-durasi').value;
-  const sisi = document.getElementById('s-sisi').value;
-  const kond = document.getElementById('s-kondisi').value;
-  const cat  = document.getElementById('s-catatan').value.trim();
+  const tgl      = document.getElementById('s-tanggal').value;
+  const jam      = document.getElementById('s-jam').value;
+  const jamSeles = document.getElementById('s-jam-selesai').value;
+  const sisi     = document.getElementById('s-sisi').value;
+  const kond     = document.getElementById('s-kondisi').value;
+  const cat      = document.getElementById('s-catatan').value.trim();
 
-  if (!tgl || !jam) { showToast('⚠️ Isi tanggal dan jam dulu ya'); haptic('error'); return; }
+  if (!tgl || !jam) {
+    showToast('⚠️ Isi tanggal dan jam mulai dulu ya');
+    haptic('error');
+    return;
+  }
+
+  let durasi = '—';
+  if (jamSeles) {
+    const menit = hitungSelisihMenit(jam, jamSeles);
+    if (menit !== null && menit > 0) durasi = String(menit);
+  }
 
   data.menyusui.unshift({
     id: Date.now(), tgl, jam,
-    durasi: dur || '—',
+    jamSelesai: jamSeles || null,
+    durasi,
     sisi, kondisi: kond,
     catatan: cat,
     jenis: 'menyusui',
@@ -1363,10 +1177,15 @@ function tambahMenyusui() {
   });
   save();
   renderMenyusui();
-  document.getElementById('s-durasi').value = '';
+
+  document.getElementById('s-jam-selesai').value = '';
   document.getElementById('s-catatan').value = '';
   document.getElementById('s-kondisi').value = 'normal';
-  // Scroll form to top
+  document.getElementById('s-jam').value = '';
+
+  document.getElementById('durasi-preview').classList.remove('has-value');
+  document.getElementById('durasi-text').textContent = 'Isi jam mulai & selesai untuk melihat durasi';
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
   showToast('✓ Catatan menyusui disimpan');
   haptic('medium');
@@ -1429,7 +1248,7 @@ function hapus(jenis, id) {
   haptic('light');
 }
 
-// ── Penghitung Menyusui ──────────────────────────────────
+// ── Penghitung ─────────────────────────────────────────────
 function renderHitung() {
   updateLastFeedBox();
   updateEstimasiAuto();
@@ -1440,52 +1259,68 @@ function updateLastFeedBox() {
   const last = data.menyusui[0];
   const el = document.getElementById('last-feed-jam');
   const detail = document.getElementById('last-feed-detail');
-  if (el) el.textContent = `Terakhir pukul ${last.jam} · ${last.tgl}`;
-  if (detail) detail.textContent = `Payudara ${last.sisi}${last.durasi !== '—' ? ` · ${last.durasi} mnt` : ''}`;
+  if (el) {
+    const selesaiTxt = last.jamSelesai ? ` – ${last.jamSelesai}` : '';
+    el.textContent = `Terakhir pukul ${last.jam}${selesaiTxt} · ${last.tgl}`;
+  }
+  if (detail) {
+    const durTxt = last.durasi !== '—' ? ` · ${last.durasi} mnt` : '';
+    detail.textContent = `Payudara ${last.sisi}${durTxt}`;
+  }
 }
 
 function updateEstimasiAuto() {
   if (!data.menyusui.length) return;
   const last = data.menyusui[0];
   const h = document.getElementById('h-jam-terakhir');
-  if (h && !h.value) h.value = last.jam;
+  const baseJam = last.jamSelesai || last.jam;
+  if (h && !h.value) h.value = baseJam;
 }
 
 function ambilDariData() {
   if (!data.menyusui.length) { showToast('⚠️ Belum ada data menyusui'); haptic('error'); return; }
   const last = data.menyusui[0];
-  document.getElementById('h-jam-terakhir').value = last.jam;
-  showToast(`✓ Jam diambil: ${last.jam}`);
+  const baseJam = last.jamSelesai || last.jam;
+  document.getElementById('h-jam-terakhir').value = baseJam;
+  showToast(`✓ Jam diambil: ${baseJam}${last.jamSelesai ? ' (jam selesai)' : ' (jam mulai)'}`);
   haptic('light');
+}
+
+// ── Hitung & tampilkan estimasi ───────────────────────────
+// Returns array of { id, mnt, jamStr, selisihMin } for all intervals
+function getEstimasiData(jamVal) {
+  if (!jamVal) return [];
+  const [hh, mm] = jamVal.split(':').map(Number);
+  const baseMin = hh * 60 + mm;
+  const nowObj = new Date();
+  const nowMin = nowObj.getHours() * 60 + nowObj.getMinutes();
+
+  return [
+    { id: 'est-30',  mnt: 30,  label: '30 mnt' },
+    { id: 'est-60',  mnt: 60,  label: '1 jam' },
+    { id: 'est-90',  mnt: 90,  label: '1½ jam' },
+    { id: 'est-120', mnt: 120, label: '2 jam' },
+    { id: 'est-150', mnt: 150, label: '2½ jam' },
+    { id: 'est-180', mnt: 180, label: '3 jam' },
+  ].map(({ id, mnt, label }) => {
+    const targetMin = baseMin + mnt;
+    const th = Math.floor(targetMin / 60) % 24;
+    const tm = targetMin % 60;
+    const jamStr = `${th.toString().padStart(2,'0')}:${tm.toString().padStart(2,'0')}`;
+    const selisihMin = targetMin - nowMin;
+    return { id, mnt, label, jamStr, selisihMin };
+  });
 }
 
 function hitungEstimasi() {
   const jamVal = document.getElementById('h-jam-terakhir').value;
   if (!jamVal) { showToast('⚠️ Isi jam terakhir menyusui dulu'); haptic('error'); return; }
-  const [hh, mm] = jamVal.split(':').map(Number);
-  const baseMin = hh * 60 + mm;
-  const now = new Date();
-  const nowMin = now.getHours() * 60 + now.getMinutes();
 
-  const intervals = [
-    { id: 'est-30',  mnt: 30 },
-    { id: 'est-60',  mnt: 60 },
-    { id: 'est-90',  mnt: 90 },
-    { id: 'est-120', mnt: 120 },
-    { id: 'est-150', mnt: 150 },
-    { id: 'est-180', mnt: 180 },
-  ];
-
-  intervals.forEach(({ id, mnt }) => {
-    const targetMin = baseMin + mnt;
-    const th = Math.floor(targetMin / 60) % 24;
-    const tm = targetMin % 60;
-    const selisihMin = targetMin - nowMin;
+  const items = getEstimasiData(jamVal);
+  items.forEach(({ id, jamStr, selisihMin }) => {
     const el = document.getElementById(id);
     if (!el) return;
-
-    el.querySelector('.est-jam').textContent =
-      `${th.toString().padStart(2,'0')}:${tm.toString().padStart(2,'0')}`;
+    el.querySelector('.est-jam').textContent = jamStr;
 
     let kelas, statusTeks, selisihTeks;
     if (selisihMin < -10) {
@@ -1493,29 +1328,234 @@ function hitungEstimasi() {
       const le = Math.abs(selisihMin);
       selisihTeks = `${Math.floor(le/60)>0?Math.floor(le/60)+'j ':''} ${le%60}m lalu`;
     } else if (selisihMin < 0) {
-      kelas = 'sekarang'; statusTeks = 'Sekarang!';
-      selisihTeks = 'Waktunya!';
+      kelas = 'sekarang'; statusTeks = 'Sekarang!'; selisihTeks = 'Waktunya!';
     } else if (selisihMin <= 15) {
-      kelas = 'segera'; statusTeks = 'Segera!';
-      selisihTeks = `${selisihMin} mnt lagi`;
+      kelas = 'segera'; statusTeks = 'Segera!'; selisihTeks = `${selisihMin} mnt lagi`;
     } else {
       kelas = 'akan'; statusTeks = 'Akan datang';
       selisihTeks = `${Math.floor(selisihMin/60)>0?Math.floor(selisihMin/60)+'j ':''} ${selisihMin%60}m lagi`;
     }
-    el.className = `estimasi-item ${kelas}`;
+
+    // Preserve timer-terpasang class if this is the selected one
+    const isTerpasang = selectedEstimasiJam === jamStr;
+    el.className = `estimasi-item ${kelas}${isTerpasang ? ' timer-terpasang' : ''}`;
     el.querySelector('.est-selisih').textContent = selisihTeks;
     el.querySelector('.est-status').textContent  = statusTeks;
   });
-  showToast('✓ Estimasi dihitung');
+  showToast('✓ Estimasi dihitung — ketuk salah satu untuk timer');
   haptic('light');
 }
 
-// ── Audio & notifikasi ────────────────────────────────────
+// ── Pasang timer dari estimasi (INTI PERUBAHAN) ───────────
+// Called when user taps an estimasi card.
+// Sets timerEnd to the EXACT clock time shown on the card.
+function pasangTimerDariEstimasi(estId) {
+  const el = document.getElementById(estId);
+  if (!el) return;
+
+  // Don't allow tapping 'lewat' items
+  if (el.classList.contains('lewat')) {
+    showToast('⚠️ Waktu itu sudah lewat, pilih estimasi lain');
+    haptic('error');
+    return;
+  }
+
+  // Get the displayed jam from the card
+  const jamStr = el.querySelector('.est-jam').textContent;
+  if (jamStr === '—:—') {
+    showToast('⚠️ Hitung estimasi dulu dengan menekan tombol Hitung');
+    haptic('error');
+    return;
+  }
+
+  // Stop any running timer first
+  if (timerInterval) stopTimer(true);
+
+  // Mark which estimasi is selected
+  selectedEstimasiJam   = jamStr;
+  selectedEstimasiLabel = el.querySelector('.est-label').textContent;
+
+  // Remove timer-terpasang from all, add to selected
+  document.querySelectorAll('.estimasi-item').forEach(e => e.classList.remove('timer-terpasang'));
+  el.classList.add('timer-terpasang');
+
+  // Build absolute end time from "HH:MM" string
+  // (handle midnight crossing: if target hour < current hour, it's next day)
+  const [th, tm] = jamStr.split(':').map(Number);
+  const now2 = new Date();
+  const end = new Date(now2);
+  end.setSeconds(0);
+  end.setMilliseconds(0);
+  end.setHours(th);
+  end.setMinutes(tm);
+  // If the target time has already passed today, push to next day
+  if (end <= now2) end.setDate(end.getDate() + 1);
+
+  const remainMs = end - now2;
+  const remainMnt = Math.ceil(remainMs / 60000);
+
+  // Store globally so startTimer can use it
+  timerEnd = end;
+
+  // Update pill UI
+  const pill = document.getElementById('timer-pill');
+  const pillTxt = document.getElementById('timer-pill-text');
+  pill.classList.add('set');
+  pillTxt.textContent = `Target: pukul ${jamStr} (interval ${selectedEstimasiLabel}) — ${remainMnt} mnt lagi`;
+
+  // Enable start button, update display
+  document.getElementById('btn-start').disabled = false;
+  document.getElementById('timer-clock').textContent = formatMs(remainMs);
+  document.getElementById('timer-clock').className = 'timer-clock';
+  document.getElementById('timer-label').textContent = 'Target dipilih — tekan Mulai';
+  document.getElementById('timer-sub').textContent = `Akan berbunyi pukul ${jamStr}`;
+  document.getElementById('timer-target').textContent = '';
+  document.getElementById('timer-bar').style.width = '0%';
+  document.getElementById('timer-bar').className = 'timer-progress-bar';
+
+  showToast(`⏱ Target jam ${jamStr} (${selectedEstimasiLabel}) terpilih`);
+  haptic('medium');
+}
+
+function formatMs(ms) {
+  const totalSec = Math.max(0, Math.ceil(ms / 1000));
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+
+// ── Timer ──────────────────────────────────────────────────
+function startTimer() {
+  if (!timerEnd) {
+    showToast('⚠️ Pilih estimasi waktu dulu di atas');
+    haptic('error');
+    return;
+  }
+
+  // If timerEnd is in the past (shouldn't normally happen), warn
+  if (timerEnd <= new Date()) {
+    showToast('⚠️ Waktu target sudah lewat, hitung ulang estimasi');
+    haptic('error');
+    return;
+  }
+
+  timerStart = Date.now();
+  timerFired = false;
+
+  document.getElementById('btn-start').disabled = true;
+  document.getElementById('btn-stop').disabled = false;
+
+  const jamStr = selectedEstimasiJam || '—';
+  document.getElementById('timer-target').textContent =
+    `Target: pukul ${jamStr} (${selectedEstimasiLabel || ''})`;
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(tickTimer, 500);
+  tickTimer();
+
+  showToast(`▶ Timer dimulai → pukul ${jamStr}`);
+  haptic('medium');
+}
+
+// silent: true = don't reset selectedEstimasi (used internally)
+function stopTimer(silent) {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerFired = false;
+
+  document.getElementById('btn-start').disabled = !timerEnd; // keep enabled if target still set
+  document.getElementById('btn-stop').disabled = true;
+  document.getElementById('timer-label').textContent = silent ? 'Target dipilih — tekan Mulai' : 'Timer dihentikan';
+  document.getElementById('timer-clock').className = 'timer-clock';
+  document.getElementById('timer-sub').textContent = timerEnd && !silent ? '—' : (timerEnd ? `Akan berbunyi pukul ${selectedEstimasiJam}` : '—');
+  document.getElementById('timer-target').textContent = '';
+  document.getElementById('timer-bar').style.width = '0%';
+  document.getElementById('timer-bar').className = 'timer-progress-bar';
+
+  if (!silent) {
+    // Full stop: reset target too
+    timerEnd = null; timerStart = null;
+    selectedEstimasiJam = null; selectedEstimasiLabel = null;
+    document.querySelectorAll('.estimasi-item').forEach(e => e.classList.remove('timer-terpasang'));
+    const pill = document.getElementById('timer-pill');
+    const pillTxt = document.getElementById('timer-pill-text');
+    pill.classList.remove('set');
+    pillTxt.textContent = 'Ketuk salah satu estimasi di atas untuk set timer';
+    document.getElementById('timer-clock').textContent = '--:--:--';
+    document.getElementById('timer-label').textContent = 'Belum ada target dipilih';
+    document.getElementById('timer-sub').textContent = '—';
+    haptic('light');
+  }
+}
+
+function tickTimer() {
+  if (!timerEnd) return;
+  const remainMs  = timerEnd - Date.now();
+  const clock     = document.getElementById('timer-clock');
+  const bar       = document.getElementById('timer-bar');
+  const label     = document.getElementById('timer-label');
+  const sub       = document.getElementById('timer-sub');
+
+  // Total duration from start to end
+  const totalDur  = timerStart ? (timerEnd - timerStart) : (timerEnd - Date.now());
+
+  if (remainMs <= 0) {
+    clock.textContent = '00:00:00';
+    clock.className = 'timer-clock alert';
+    label.textContent = '🍼 Waktunya menyusui!';
+    bar.style.width = '100%';
+    bar.className = 'timer-progress-bar alert';
+
+    const overSec = Math.abs(Math.ceil(remainMs / 1000));
+    const oh = Math.floor(overSec/3600), om = Math.floor((overSec%3600)/60), os = overSec%60;
+    sub.textContent = `Lewat ${oh>0?oh+'j ':''} ${om.toString().padStart(2,'0')}:${os.toString().padStart(2,'0')}`;
+
+    if (!timerFired) {
+      timerFired = true;
+      if (notifAktif) {
+        playNotifSound();
+        setTimeout(() => speakTTS('Waktunya menyusui. Timer sudah selesai.'), 800);
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('🍼 Catatan Bayi', { body: `Waktunya menyusui! Pukul ${selectedEstimasiJam}`, icon: '' });
+        }
+      }
+      haptic('error');
+    }
+    return;
+  }
+
+  clock.textContent = formatMs(remainMs);
+
+  const pct = timerStart
+    ? Math.max(0, Math.min(100, ((Date.now() - timerStart) / (timerEnd - timerStart)) * 100))
+    : 0;
+  bar.style.width = pct + '%';
+
+  const mSisa = Math.ceil(remainMs / 60000);
+  if (mSisa <= 5) {
+    clock.className = 'timer-clock alert';
+    label.textContent = '⚠️ Hampir waktunya menyusui!';
+    bar.className = 'timer-progress-bar alert';
+  } else if (mSisa <= 15) {
+    clock.className = 'timer-clock warning';
+    label.textContent = '⏰ Segera menyusui...';
+    bar.className = 'timer-progress-bar warning';
+  } else {
+    clock.className = 'timer-clock';
+    label.textContent = `Menghitung mundur ke pukul ${selectedEstimasiJam || '—'}`;
+    bar.className = 'timer-progress-bar';
+  }
+
+  const jamTarget = selectedEstimasiJam || '';
+  sub.textContent = `Selesai pukul ${jamTarget}`;
+}
+
+// ── Audio ──────────────────────────────────────────────────
 function getAudioCtx() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   return audioCtx;
 }
-
 function playNotifSound() {
   try {
     const ctx = getAudioCtx();
@@ -1534,7 +1574,6 @@ function playNotifSound() {
     });
   } catch(e) { console.warn('Audio error', e); }
 }
-
 function speakTTS(text) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
@@ -1545,7 +1584,6 @@ function speakTTS(text) {
   if (idVoice) utt.voice = idVoice;
   window.speechSynthesis.speak(utt);
 }
-
 function toggleNotif() {
   notifAktif = !notifAktif;
   const btn = document.getElementById('btn-notif');
@@ -1572,114 +1610,20 @@ function toggleNotif() {
   }
 }
 
-// ── Timer countdown ───────────────────────────────────────
-function startTimer() {
-  const menit = parseInt(document.getElementById('timer-target-sel').value);
-  timerDuration = menit * 60;
-  timerEnd = new Date(Date.now() + timerDuration * 1000);
-  timerFired = false;
-
-  document.getElementById('btn-start').disabled = true;
-  document.getElementById('btn-stop').disabled = false;
-  document.getElementById('timer-target').textContent =
-    `Target: ${menit} menit — selesai ${timerEnd.getHours().toString().padStart(2,'0')}:${timerEnd.getMinutes().toString().padStart(2,'0')}`;
-
-  clearInterval(timerInterval);
-  timerInterval = setInterval(tickTimer, 500);
-  tickTimer();
-  showToast(`⏱ Timer ${menit} menit dimulai`);
-  haptic('medium');
-}
-
-function stopTimer() {
-  clearInterval(timerInterval);
-  timerInterval = null; timerEnd = null; timerFired = false;
-  document.getElementById('btn-start').disabled = false;
-  document.getElementById('btn-stop').disabled = true;
-  document.getElementById('timer-label').textContent = 'Timer dihentikan';
-  document.getElementById('timer-clock').textContent = '00:00:00';
-  document.getElementById('timer-clock').className = 'timer-clock';
-  document.getElementById('timer-sub').textContent = '—';
-  document.getElementById('timer-target').textContent = '';
-  document.getElementById('timer-bar').style.width = '0%';
-  document.getElementById('timer-bar').className = 'timer-progress-bar';
-  haptic('light');
-}
-
-function tickTimer() {
-  if (!timerEnd) return;
-  const remainMs  = timerEnd - Date.now();
-  const remainSec = Math.ceil(remainMs / 1000);
-
-  const clock = document.getElementById('timer-clock');
-  const bar   = document.getElementById('timer-bar');
-  const label = document.getElementById('timer-label');
-  const sub   = document.getElementById('timer-sub');
-
-  if (remainMs <= 0) {
-    clock.textContent = '00:00:00';
-    clock.className = 'timer-clock alert';
-    label.textContent = '🍼 Waktunya menyusui!';
-    sub.textContent = 'Timer selesai';
-    bar.style.width = '100%';
-    bar.className = 'timer-progress-bar alert';
-
-    if (!timerFired) {
-      timerFired = true;
-      if (notifAktif) {
-        playNotifSound();
-        setTimeout(() => speakTTS('Waktunya menyusui. Timer sudah selesai.'), 800);
-        if (Notification.permission === 'granted') {
-          new Notification('🍼 Catatan Bayi', { body: 'Waktunya menyusui!', icon: '' });
-        }
-      }
-      haptic('error');
-    }
-    const overSec = Math.abs(remainSec);
-    const oh = Math.floor(overSec/3600), om = Math.floor((overSec%3600)/60), os = overSec%60;
-    sub.textContent = `Lewat ${oh>0?oh+'j ':''} ${om.toString().padStart(2,'0')}:${os.toString().padStart(2,'0')}`;
-    return;
-  }
-
-  const h = Math.floor(remainSec/3600);
-  const m = Math.floor((remainSec%3600)/60);
-  const s = remainSec%60;
-  clock.textContent = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-
-  const pct = Math.max(0, Math.min(100, ((timerDuration - remainSec) / timerDuration) * 100));
-  bar.style.width = pct + '%';
-
-  const mSisa = Math.ceil(remainMs / 60000);
-  if (mSisa <= 5) {
-    clock.className = 'timer-clock alert';
-    label.textContent = '⚠️ Hampir waktunya!';
-    bar.className = 'timer-progress-bar alert';
-  } else if (mSisa <= 15) {
-    clock.className = 'timer-clock warning';
-    label.textContent = '⏰ Segera menyusui...';
-    bar.className = 'timer-progress-bar warning';
-  } else {
-    clock.className = 'timer-clock';
-    label.textContent = 'Menghitung mundur...';
-    bar.className = 'timer-progress-bar';
-  }
-  const jam = timerEnd.getHours().toString().padStart(2,'0') + ':' + timerEnd.getMinutes().toString().padStart(2,'0');
-  sub.textContent = `Selesai pukul ${jam}`;
-}
-
-// Minta izin notifikasi browser saat halaman dibuka
 if ('Notification' in window && Notification.permission === 'default') {
   Notification.requestPermission();
 }
 
-// ── Render Menyusui ──────────────────────────────────────
+// ── Render Menyusui ───────────────────────────────────────
 function renderMenyusui() {
   const today = todayStr();
   const todayItems = data.menyusui.filter(x => x.tgl === today);
   document.getElementById('s-stats').textContent = todayItems.length + '× hari ini';
   document.getElementById('st-total').innerHTML = data.menyusui.length + '<span class="unit">kali total</span>';
 
-  const totalDur = todayItems.filter(x => x.durasi !== '—').reduce((a, b) => a + parseInt(b.durasi), 0);
+  const totalDur = todayItems
+    .filter(x => x.durasi !== '—' && !isNaN(parseInt(x.durasi)))
+    .reduce((a, b) => a + parseInt(b.durasi), 0);
   document.getElementById('st-durasi').innerHTML = totalDur + '<span class="unit">mnt hari ini</span>';
 
   if (todayItems.length > 1) {
@@ -1703,13 +1647,22 @@ function renderMenyusui() {
   }
   const kondBadge = { normal:'badge-blue', gumoh:'badge-amber', rewel:'badge-red', tertidur:'badge-teal' };
   const kondLabel = { normal:'Normal', gumoh:'Gumoh', rewel:'Rewel', tertidur:'Ketiduran' };
-  list.innerHTML = data.menyusui.slice(0, 40).map(x => `
+
+  list.innerHTML = data.menyusui.slice(0, 40).map(x => {
+    let waktuTxt = x.jamSelesai ? `${x.jam} – ${x.jamSelesai}` : x.jam;
+    let durasiTxt = '';
+    if (x.durasi && x.durasi !== '—') {
+      const mnt = parseInt(x.durasi);
+      durasiTxt = mnt >= 60
+        ? ` &nbsp;·&nbsp; ${Math.floor(mnt/60)}j ${mnt%60}m`
+        : ` &nbsp;·&nbsp; ${mnt} mnt`;
+    }
+    return `
     <div class="log-item">
       <div class="log-info">
         <span class="log-time">
           <i class="ti ti-calendar"></i>${x.tgl} &nbsp;·&nbsp;
-          <i class="ti ti-clock"></i>${x.jam}
-          ${x.durasi !== '—' ? ` &nbsp;·&nbsp; ${x.durasi} mnt` : ''}
+          <i class="ti ti-clock"></i>${waktuTxt}${durasiTxt}
         </span>
         <span class="log-detail">
           <strong>Payudara ${x.sisi}</strong>
@@ -1718,10 +1671,11 @@ function renderMenyusui() {
         ${x.catatan ? `<span class="log-note">"${x.catatan}"</span>` : ''}
       </div>
       <button class="delete-btn" onclick="hapus('menyusui',${x.id})" aria-label="Hapus"><i class="ti ti-x"></i></button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-// ── Render Popok ─────────────────────────────────────────
+// ── Render Popok ──────────────────────────────────────────
 function renderPopok() {
   const today = todayStr();
   const todayItems = data.popok.filter(x => x.tgl === today);
@@ -1750,7 +1704,7 @@ function renderPopok() {
     </div>`).join('');
 }
 
-// ── Render Berat ─────────────────────────────────────────
+// ── Render Berat ──────────────────────────────────────────
 function renderBerat() {
   const list = document.getElementById('list-berat');
   if (!data.berat.length) {
@@ -1776,7 +1730,7 @@ function renderBerat() {
   }).join('');
 }
 
-// ── Render Semua ─────────────────────────────────────────
+// ── Render Semua ──────────────────────────────────────────
 function setFilter(f, btn) {
   currentFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -1803,7 +1757,6 @@ function renderSemua() {
     list.innerHTML = `<div class="empty"><i class="ti ti-history"></i><p>Belum ada data tersimpan</p></div>`;
     return;
   }
-
   const kondLabel = { normal:'Normal', gumoh:'Gumoh', rewel:'Rewel', tertidur:'Ketiduran' };
   const jenisLabel = { basah:'Basah/Pipis', bab:'BAB', keduanya:'Basah + BAB' };
   const catIcon  = { menyusui:'ti-droplet-filled', popok:'ti-baby-carriage', berat:'ti-scale' };
@@ -1813,7 +1766,9 @@ function renderSemua() {
   list.innerHTML = allItems.slice(0, 80).map(x => {
     let detail = '';
     if (x._cat === 'menyusui') {
-      detail = `Payudara <strong>${x.sisi}</strong> · ${kondLabel[x.kondisi] || x.kondisi}${x.durasi !== '—' ? ` · ${x.durasi} mnt` : ''}`;
+      const waktu = x.jamSelesai ? `${x.jam}–${x.jamSelesai}` : x.jam;
+      const durTxt = (x.durasi && x.durasi !== '—') ? ` · ${x.durasi} mnt` : '';
+      detail = `Payudara <strong>${x.sisi}</strong> · ${kondLabel[x.kondisi] || x.kondisi} · ${waktu}${durTxt}`;
     } else if (x._cat === 'popok') {
       detail = jenisLabel[x.jenis] || x.jenis;
       if (x.warna && x.warna !== '-') detail += ` · BAB ${x.warna}`;
@@ -1836,24 +1791,11 @@ function renderSemua() {
   }).join('');
 }
 
-// ── Import JSON ───────────────────────────────────────────
-function dragOver(e) {
-  e.preventDefault();
-  document.getElementById('import-zone').classList.add('drag-over');
-}
-function dragLeave(e) {
-  document.getElementById('import-zone').classList.remove('drag-over');
-}
-function dropFile(e) {
-  e.preventDefault();
-  dragLeave(e);
-  const file = e.dataTransfer.files[0];
-  if (file) parseJSONFile(file);
-}
-function loadJSONFile(input) {
-  if (input.files[0]) parseJSONFile(input.files[0]);
-  input.value = ''; // reset agar bisa upload file yang sama lagi
-}
+// ── Import ────────────────────────────────────────────────
+function dragOver(e) { e.preventDefault(); document.getElementById('import-zone').classList.add('drag-over'); }
+function dragLeave(e) { document.getElementById('import-zone').classList.remove('drag-over'); }
+function dropFile(e) { e.preventDefault(); dragLeave(e); const file = e.dataTransfer.files[0]; if (file) parseJSONFile(file); }
+function loadJSONFile(input) { if (input.files[0]) parseJSONFile(input.files[0]); input.value = ''; }
 function parseJSONFile(file) {
   const reader = new FileReader();
   reader.onload = function(e) {
@@ -1863,22 +1805,14 @@ function parseJSONFile(file) {
       const merge = (key) => {
         const src = imported[key] || [];
         const existingIds = new Set(data[key].map(x => x.id));
-        src.forEach(x => {
-          if (!existingIds.has(x.id)) { data[key].push(x); added++; }
-        });
+        src.forEach(x => { if (!existingIds.has(x.id)) { data[key].push(x); added++; } });
       };
-      merge('menyusui');
-      merge('popok');
-      merge('berat');
-      // sort ulang berdasarkan id (descending)
+      merge('menyusui'); merge('popok'); merge('berat');
       data.menyusui.sort((a, b) => b.id - a.id);
       data.popok.sort((a, b) => b.id - a.id);
       data.berat.sort((a, b) => b.id - a.id);
       save();
-      renderMenyusui();
-      renderPopok();
-      renderBerat();
-      renderSemua();
+      renderMenyusui(); renderPopok(); renderBerat(); renderSemua();
       const res = document.getElementById('import-result');
       res.style.display = 'block';
       res.textContent = `✓ Berhasil! ${added} catatan baru ditambahkan dari "${file.name}"`;
@@ -1892,7 +1826,7 @@ function parseJSONFile(file) {
   reader.readAsText(file);
 }
 
-// ── Ekspor ───────────────────────────────────────────────
+// ── Ekspor ────────────────────────────────────────────────
 function generateExport() {
   const summary = {
     digenerate: new Date().toLocaleString('id-ID'),
@@ -1903,7 +1837,6 @@ function generateExport() {
   const out = { ringkasan: summary, menyusui: data.menyusui, popok: data.popok, berat: data.berat };
   document.getElementById('export-preview').textContent = JSON.stringify(out, null, 2);
 }
-
 function copyToClipboard() {
   const preview = document.getElementById('export-preview');
   if (preview.textContent.includes('Ketuk')) generateExport();
@@ -1911,7 +1844,6 @@ function copyToClipboard() {
     .then(() => { showToast('✓ Tersalin! Paste ke Claude'); haptic('medium'); })
     .catch(() => showToast('⚠️ Gagal menyalin, coba lagi'));
 }
-
 function downloadJSON() {
   generateExport();
   const txt = document.getElementById('export-preview').textContent;
@@ -1923,20 +1855,18 @@ function downloadJSON() {
   showToast('✓ File JSON diunduh');
   haptic('medium');
 }
-
 function resetData() {
   if (confirm('Hapus semua data? Tindakan ini tidak dapat dibatalkan.')) {
     data = { menyusui: [], popok: [], berat: [] };
     save();
-    renderMenyusui();
-    renderSemua();
+    renderMenyusui(); renderSemua();
     document.getElementById('export-preview').textContent = 'Ketuk Generate untuk melihat data';
     showToast('🗑 Semua data dihapus');
     haptic('error');
   }
 }
 
-// ── Dismiss keyboard on outside tap ──────────────────────
+// ── Keyboard dismiss ───────────────────────────────────────
 document.addEventListener('touchend', function(e) {
   if (!e.target.closest('input, textarea, select')) {
     if (document.activeElement && ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
@@ -1945,7 +1875,7 @@ document.addEventListener('touchend', function(e) {
   }
 }, { passive: true });
 
-// ── Init ─────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────
 setDefaults();
 renderMenyusui();
 renderHitung();
